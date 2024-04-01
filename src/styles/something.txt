@@ -1,0 +1,16 @@
+
+
+main {
+  .product,
+  .filters,
+  .product-manager {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    background-color: ${({ theme }) => theme.component.backgroundColor};
+    color: ${({ theme }) => theme.font.color};
+  }
+}
+
+button {
+  background-color: ${({ theme }) => theme.background.transparent};
+  color: ${({ theme }) => theme.font.color};
+}
