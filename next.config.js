@@ -3,7 +3,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BASE_URL: "https://youserstack-ecommerce-next-app.vercel.app/",
+    BASE_URL: "https://commerce-next-app-zeta.vercel.app/",
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
 
     // mongodb
