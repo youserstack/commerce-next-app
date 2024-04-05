@@ -42,17 +42,10 @@ export const authOptions: NextAuthOptions = {
         const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
         if (!isPasswordMatched) throw new Error("Invalid Password");
 
-        // out
         return user; // 리턴값은 jwt의 user property에 저장한다.
       },
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
     NaverProvider({
-      // clientId: process.env.NAVER_CLIENT_ID_LOCAL as string,
-      // clientSecret: process.env.NAVER_CLIENT_SECRET_LOCAL as string,
       clientId: process.env.NAVER_CLIENT_ID as string,
       clientSecret: process.env.NAVER_CLIENT_SECRET as string,
     }),

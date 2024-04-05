@@ -15,10 +15,9 @@ export default function Page({ products }: any) {
   if (!products) return null;
 
   return (
-    <Main>
+    <Main className="all">
       <section>
         <div className="all">
-          {/* <h1>{renderCount}</h1> */}
           {/* <Filter /> */}
           {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
           {/* <button onClick={handlesetModal}>Delete</button> */}

@@ -5,10 +5,6 @@ import Layout from "@/components/layout/Layout";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { SessionProvider } from "next-auth/react";
 
-// import { GlobalStyled } from "@/styles/global.styled";
-// import { ThemeProvider } from "styled-components";
-// import Head from "next/head";
-
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
