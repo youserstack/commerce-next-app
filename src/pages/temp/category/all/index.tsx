@@ -1,17 +1,19 @@
 import Products from "@/components/product/Products";
 import { getData } from "lib/client/utils/fetchData";
 import { styled } from "styled-components";
+
 export async function getServerSideProps({ query }: any) {
-  // console.log({ query });
   const response = await getData("products", query);
   const { products } = response.data;
+
   return { props: { products } };
 }
-let renderCount = 0;
+
 export default function Page({ products }: any) {
   console.log({ products });
-  renderCount++;
+
   if (!products) return null;
+
   return (
     <Main>
       <section>

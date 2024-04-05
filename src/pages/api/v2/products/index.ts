@@ -6,10 +6,6 @@ import { getProducts, deleteProducts } from "lib/server/controllers/productContr
 connectDB();
 
 const router = createRouter()
-  .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products]:::[${req.method}]`);
-    await next();
-  })
   .get(getProducts)
   .use(checkAuth, checkRoles(["admin"]))
   .delete(deleteProducts);
