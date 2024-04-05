@@ -24,8 +24,8 @@ const signinWithNextauthCredentials = async (data: any) => {
 };
 
 const signinWithNextauthOauth = async () => {
-  await signIn("naver", { redirect: true });
-  // await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
+  // await signIn("naver", { redirect: true });
+  await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
 };
 const signinWithKakao = async () => {
   await signIn("kakao", { redirect: true, callbackUrl: "/my/account" });
