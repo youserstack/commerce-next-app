@@ -1,10 +1,8 @@
 import axios from "axios";
-const baseUrl =
-  process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
-// console.log({
-//   NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
-//   BASE_URL: process.env.BASE_URL,
-// });
+const baseUrl = process.env.NEXT_PUBLIC_ENV;
+// const baseUrl =
+//   process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
+
 export const getData = async (url: string, query?: any, token?: string) => {
   const response = await axios({
     method: "get",
