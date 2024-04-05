@@ -5,7 +5,6 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import { getData, postData } from "lib/client/utils/fetchData";
 import { signIn, signOut } from "next-auth/react";
 
-// signin
 const signinWithJWT = async (dispatch: any, data: any) => {
   const response = await postData("v2/auth/signin", data);
   const { user, accessToken } = response.data;
@@ -31,6 +30,7 @@ const signinWithKakao = async () => {
   await signIn("kakao", { redirect: true, callbackUrl: "/my/account" });
 };
 
+// signin entry
 export const signin = async (dispatch: any, method: any, data: any) => {
   dispatch(setLoading(true));
   try {
@@ -57,7 +57,6 @@ export const signin = async (dispatch: any, method: any, data: any) => {
   dispatch(setLoading(false));
 };
 
-// refresh
 export const refreshAuth = async (dispatch: any) => {
   dispatch(setLoading(true));
   try {
@@ -70,7 +69,6 @@ export const refreshAuth = async (dispatch: any) => {
   dispatch(setLoading(false));
 };
 
-// signout
 export const signout = async (dispatch: any, auth: any) => {
   const { session, token } = auth;
 
