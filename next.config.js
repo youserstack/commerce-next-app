@@ -57,6 +57,15 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination:
+          "https://commerce-next-app-git-new-branch-youserstacks-projects.vercel.app/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
