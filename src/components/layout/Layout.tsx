@@ -12,11 +12,9 @@ import { refreshAuth } from "lib/client/utils/authUtils";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-// import { ThemeProvider } from "styled-components";
 
 export default function Layout({ children }: any) {
   const router = useRouter();

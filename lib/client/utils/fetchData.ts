@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_ENV;
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? process.env.NEXT_PRO_ENV : process.env.NEXT_DEV_ENV;
 
 export const getData = async (url: string, query?: any, token?: string) => {
   const response = await axios({
