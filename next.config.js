@@ -3,8 +3,8 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    NEXT_DEV_ENV: process.env.NEXT_DEV_ENV,
-    NEXT_PRO_ENV: process.env.NEXT_PRO_ENV,
+    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
+    NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV,
 
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NAVER_CLIENT_ID: process.env.NAVER_CLIENT_ID,

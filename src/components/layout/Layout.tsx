@@ -42,10 +42,11 @@ export default function Layout({ children }: any) {
     dispatch(setCredentials(credentials));
   }, [session, dispatch]);
   // if no token, refresh the token (general)
-  useEffect(() => {
-    if (session) return;
-    if (!token) refreshAuth(dispatch);
-  }, [token, dispatch]);
+  // useEffect(() => {
+  //   if (session) return;
+  //   console.log({ token });
+  //   if (!token) refreshAuth(dispatch);
+  // }, [token, dispatch]);
 
   // cart
   const cart = useSelector((store: any) => store.cart);
