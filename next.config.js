@@ -61,8 +61,7 @@ const nextConfig = {
     return [
       {
         source: "/:path*",
-        destination:
-          "https://commerce-next-app-git-new-branch-youserstacks-projects.vercel.app/:path*",
+        destination: "https://commerce-next-app-zeta.vercel.app//:path*",
       },
     ];
   },
