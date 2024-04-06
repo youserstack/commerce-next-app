@@ -6,6 +6,7 @@ const nextConfig = {
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV,
 
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     // NEXTAUTH_URL:
     //   process.env.NODE_ENV === "production"
     //     ? process.env.NEXT_PRODUCTION_ENV + "/api/auth"
