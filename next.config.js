@@ -6,6 +6,10 @@ const nextConfig = {
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV,
 
+    NEXTAUTH_URL:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PRODUCTION_ENV
+        : process.env.NEXT_PUBLIC_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NAVER_CLIENT_ID: process.env.NAVER_CLIENT_ID,
     NAVER_CLIENT_SECRET: process.env.NAVER_CLIENT_SECRET,
@@ -66,10 +70,14 @@ const nextConfig = {
   //   ];
   // },
   async rewrites() {
+    const BASE_URL =
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PRODUCTION_ENV
+        : process.env.NEXT_PUBLIC_ENV;
     return [
       {
-        source: "/api/auth/:path*",
-        destination: "https://commerce-next-app-zeta.vercel.app/api/auth/:path*",
+        source: "/api/:path*",
+        destination: `${BASE_URL}/api/:path*`,
       },
     ];
   },
