@@ -4,7 +4,10 @@ const BASE_URL =
   process.env.NODE_ENV === "production"
     ? process.env.NEXT_PRODUCTION_ENV
     : process.env.NEXT_PUBLIC_ENV;
-// console.log({ NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV, NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV });
+console.log({
+  NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV,
+  NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
+});
 console.log({ BASE_URL });
 
 export const getData = async (url: string, query?: any, token?: string) => {
