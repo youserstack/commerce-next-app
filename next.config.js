@@ -65,6 +65,14 @@ const nextConfig = {
   //     },
   //   ];
   // },
+  async rewrites() {
+    return [
+      {
+        source: "/api/auth/:path*",
+        destination: "https://commerce-next-app-zeta.vercel.app/api/auth/:path*",
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
