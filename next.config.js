@@ -60,8 +60,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "https://commerce-next-app-zeta.vercel.app//:path*",
+        source: "/api/:path*",
+        destination: "https://commerce-next-app-zeta.vercel.app/api/:path*",
       },
     ];
   },
