@@ -8,7 +8,15 @@ import { SessionProvider } from "next-auth/react";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <SessionProvider session={pageProps.session}>
+      <SessionProvider
+        session={pageProps.session}
+        baseUrl={
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PRODUCTION_ENV + "/api/auth"
+            : process.env.NEXT_PUBLIC_ENV + "/api/auth"
+        }
+        // basePath="/api/auth"
+      >
         <PayPalScriptProvider
           options={{
             clientId:

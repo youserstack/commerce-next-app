@@ -57,14 +57,14 @@ const nextConfig = {
   //     },
   //   ];
   // },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://commerce-next-app-zeta.vercel.app/api/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "https://commerce-next-app-zeta.vercel.app/api/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;
