@@ -4,14 +4,14 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { SiKakaotalk, SiNaver } from "react-icons/si";
-import { signin } from "lib/client/utils/authUtils";
-import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { setLoading } from "lib/client/store/loadingSlice";
+import { postData } from "lib/client/utils/fetchData";
+import { setCredentials } from "lib/client/store/authSlice";
 
 export default function SigninForm() {
-  // external
   const dispatch = useDispatch();
 
-  // internal
   const router = useRouter();
   const {
     register,
@@ -23,9 +23,43 @@ export default function SigninForm() {
 
   useEffect(() => setFocus("email"), [setFocus]);
 
+  const signin = async (data: any) => {
+    const response = await postData("v2/auth/signin", data);
+    const { user, accessToken } = response.data;
+    dispatch(setCredentials({ user, accessToken }));
+  };
+
+  const signinWithCredentials = async (data: any) => {
+    const { email, password } = data;
+    const response: any = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/my/account",
+    });
+    // console.log({response})
+  };
+
+  const signinWithOauth = async (e: any, method: any) => {
+    e.preventDefault();
+    dispatch(setLoading(true));
+    switch (method) {
+      case "naver":
+        await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
+        break;
+      case "kakao":
+        await signIn("kakao", { redirect: true, callbackUrl: "/my/account" });
+        break;
+
+      default:
+        break;
+    }
+    dispatch(setLoading(false));
+  };
+
   return (
     <Box className="signin-form box">
       <h1>Sign In</h1>
+
       <div className="partition" />
 
       <form className="traditional-signin">
@@ -35,46 +69,24 @@ export default function SigninForm() {
           type="password"
           placeholder="password"
         />
-        <button
-          className="signin"
-          onClick={handleSubmit((data) => {
-            signin(dispatch, "general-jwt", data);
-            router.push("/my/account");
-          })}
-        >
-          Sign in without Library
+
+        <button className="signin" onClick={handleSubmit(signin)}>
+          Sign in
         </button>
-        <button
-          className="signin-with-credentials"
-          onClick={handleSubmit((data) => {
-            signin(dispatch, "nextauth-credentials", data);
-            router.push("/my/account");
-          })}
-        >
+
+        <button className="signin-with-credentials" onClick={handleSubmit(signinWithCredentials)}>
           Sign in with Credentials
         </button>
       </form>
+
       <div className="partition" />
 
-      <button
-        className="signin-with-naver"
-        onClick={(e) => {
-          e.preventDefault();
-          signin(dispatch, "nextauth-oauth", null);
-          router.push("/my/account");
-        }}
-      >
+      <button className="signin-with-naver" onClick={(e) => signinWithOauth(e, "naver")}>
         <SiNaver size={14} />
         Sign in with Naver
       </button>
-      <button
-        className="signin-with-kakao"
-        onClick={(e) => {
-          e.preventDefault();
-          signin(dispatch, "kakao", null);
-          router.push("/my/account");
-        }}
-      >
+
+      <button className="signin-with-kakao" onClick={(e) => signinWithOauth(e, "kakao")}>
         {/* <SiKakaotalk size={14} /> */}
         Sign in with Kakao
       </button>

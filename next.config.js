@@ -3,8 +3,8 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
-    NEXT_PRODUCTION_ENV: process.env.NEXT_PRODUCTION_ENV,
+    NEXT_DEV_ENV: process.env.NEXT_DEV_ENV,
+    NEXT_PROD_ENV: process.env.NEXT_PROD_ENV,
 
     // NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -69,8 +69,8 @@ const nextConfig = {
   // async rewrites() {
   //   const BASE_URL =
   //     process.env.NODE_ENV === "production"
-  //       ? process.env.NEXT_PRODUCTION_ENV
-  //       : process.env.NEXT_PUBLIC_ENV;
+  //       ? process.env.NEXT_PROD_ENV
+  //       : process.env.NEXT_DEV_ENV;
   //   return [
   //     {
   //       source: "/api/auth/:path*",
