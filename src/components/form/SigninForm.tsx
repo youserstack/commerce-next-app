@@ -24,12 +24,15 @@ export default function SigninForm() {
   useEffect(() => setFocus("email"), [setFocus]);
 
   const signin = async (data: any) => {
+    dispatch(setLoading(true));
     const response = await postData("v2/auth/signin", data);
     const { user, accessToken } = response.data;
     dispatch(setCredentials({ user, accessToken }));
+    dispatch(setLoading(false));
   };
 
   const signinWithCredentials = async (data: any) => {
+    dispatch(setLoading(true));
     const { email, password } = data;
     const response: any = await signIn("credentials", {
       email,
@@ -37,6 +40,7 @@ export default function SigninForm() {
       callbackUrl: "/my/account",
     });
     // console.log({response})
+    dispatch(setLoading(false));
   };
 
   const signinWithOauth = async (e: any, method: any) => {
