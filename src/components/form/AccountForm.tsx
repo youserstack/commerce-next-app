@@ -11,12 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function AccountForm() {
-  // external
   const { data: session, update } = useSession();
   const auth = useSelector((store: any) => store.auth);
   const dispatch: any = useDispatch();
 
-  // internal
   const router = useRouter();
   const [newImage, setNewImage]: any = useState("");
   const [isEditMode, setIsEditMode]: any = useState(false);
@@ -27,11 +25,9 @@ export default function AccountForm() {
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
-    // return;
     dispatch(setLoading(true));
 
     try {
-      // set the formData
       const { image, name, email, role } = data;
       const formData: any = new FormData();
       formData.append("images", image);
@@ -39,7 +35,6 @@ export default function AccountForm() {
       formData.append("email", email);
       // formData.append("role", role);
 
-      // request
       const response = await axios({
         method: "PATCH",
         url: `http://localhost:3000/api/v2/user/multipart`,
@@ -48,11 +43,8 @@ export default function AccountForm() {
           "Content-Type": "multipart/form-data",
         },
         data: formData,
-        // data,
       });
       const { savedUser } = response.data;
-
-      // out
       console.log({ response });
 
       if (session) {

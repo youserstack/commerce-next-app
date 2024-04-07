@@ -3,7 +3,6 @@ import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { getData } from "lib/client/utils/fetchData";
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
@@ -26,6 +25,7 @@ export default function Page() {
   useEffect(() => fetchData(), [auth.user]);
 
   if (!orders || !orders.length) return null;
+
   return (
     <>
       <Head>

@@ -9,18 +9,9 @@ import { useEffect, useState } from "react";
 import { slideImages } from "../data/slide-images";
 import colors from "colors";
 
-// export async function getStaticPaths(context: any) {
-//   console.log(`\x1b[33m\n[pages/products/[id]]:::[getStaticPaths]\x1b[30m`);
-//   return {
-//     paths: [{ params: { id: "123" } }],
-//     fallback: true,
-//     // fallback: false,
-//     // fallback: "blocking",
-//   };
-// }
-
 export async function getStaticProps({ req }: any) {
   console.log(colors.green("[/] getStaticProps로부터 데이터베이스 조회중...."));
+
   await connectDB();
   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();
   const recentProducts = await Product.aggregate([
@@ -28,6 +19,7 @@ export async function getStaticProps({ req }: any) {
     { $limit: 12 },
   ]).exec();
   const products = { randomProducts, recentProducts };
+
   return { props: { products: JSON.parse(JSON.stringify(products)) } };
 }
 
@@ -83,10 +75,10 @@ export default function Home({ products }: any) {
               slidesToShow: 1,
               centerPadding: 0,
               dots: true,
+              autoplay: true,
+              pauseOnHover: true,
               // speed: 1000,
-              // autoplay:true,
               // autoplaySpeed: 5000,
-              // pauseOnHover:true
             }}
           />
         </section>
@@ -183,9 +175,7 @@ const Main = styled.main`
   .banner {
     /* max-width: initial; */
     min-height: initial;
-    /* height: 300px; */
     .slick-slider {
-      /* overflow-x: visible; */
       overflow-y: clip;
       .slick-list {
         overflow: visible;
@@ -199,7 +189,6 @@ const Main = styled.main`
       position: absolute;
       top: 0;
       left: 50%;
-      /* width: 1000px; */
       width: 100%;
       max-width: 1000px;
       height: 100%;
@@ -216,9 +205,6 @@ const Main = styled.main`
     margin: initial;
     min-height: initial;
     position: relative;
-
-    display: flex;
-    justify-content: center;
 
     padding: 100px 1rem;
 
@@ -311,3 +297,12 @@ const Main = styled.main`
     }
   }
 `;
+
+// export async function getStaticPaths(context: any) {
+//   return {
+//     paths: [{ params: { id: "123" } }],
+//     fallback: true,
+//     // fallback: false,
+//     // fallback: "blocking",
+//   };
+// }

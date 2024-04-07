@@ -1,22 +1,23 @@
 import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
+import colors from "colors";
 
 // single
 export const createProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<createProduct>\x1b[30m`);
+  console.log(colors.green("<createProduct>"));
   console.log(req.body);
+
   const product = await Product.create(req.body);
   res.status(200).json({ product });
 };
 export const createProductReview = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<createProductReview>\x1b[30m`);
+  console.log(colors.green("<createProductReview>"));
 
-  // get
   const { id } = req.query;
   const review = req.body;
 
-  // update
   const product = await Product.findById(id);
+  product.reviews.push(review);
   // const updatedProduct = await Product.findByIdAndUpdate(
   //   id,
   //   { $push: { reviews: req.body } },
@@ -25,20 +26,16 @@ export const createProductReview = async (req: any, res: any) => {
   // );
   // updatedProduct.reviews.reduce((sum:any,review:any)=>sum+review.rating,0)
 
-  product.reviews.push(review);
-
   const totalRating = product.reviews.reduce((sum: any, review: any) => sum + review.rating, 0);
   const averageRating: any = totalRating / product.reviews.length;
   product.ratings = parseFloat(averageRating.toFixed(1));
-
   await product.save();
-
-  // out
   console.log({ product });
+
   return res.status(200).json({ product });
 };
 export const getProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<getProduct>\x1b[30m`);
+  console.log(colors.green("<getProduct>"));
 
   const product = await Product.findById(req.query.id);
   if (!product) res.status(404).json({ message: "Not found" });
@@ -46,28 +43,25 @@ export const getProduct = async (req: any, res: any, next: any) => {
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProduct>\x1b[30m`);
-  // get
+  console.log(colors.green("<deleteProduct>"));
+
   const { id } = req.query;
-  // delete
   const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
-  // out
   console.log({ deletedProduct });
+
   return res.status(200).json({ deletedProduct });
 };
 
 // multiple
 export const getProducts = async (req: any, res: any, next: any) => {
-  // log
-  console.log(`\x1b[32m\n<getProducts>\x1b[30m`);
+  console.log(colors.green("<getProducts>"));
   console.log({ query: req.query });
 
   // set
   const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
   const page = req.query.page || 1; // 요청된 페이지
   const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
-  // const query = req.query;
-  // console.log({ query });
+
   let query: any = {};
   const { search, category, ratings } = req.query;
   if (search) query.name = { $regex: search };
@@ -99,6 +93,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
     return res.status(500).json({ message: "error...." });
   }
 };
+
 // export const getProducts = async (req: any, res: any, next: any) => {
 //   // log
 //   console.log(`\x1b[32m\n<getProducts>`);

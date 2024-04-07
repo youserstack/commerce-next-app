@@ -1,22 +1,23 @@
 import Products from "@/components/product/Products";
 import { getData } from "lib/client/utils/fetchData";
 import { styled } from "styled-components";
+
 export async function getServerSideProps({ query }: any) {
-  // console.log({ query });
   const response = await getData("products", query);
   const { products } = response.data;
+
   return { props: { products } };
 }
-let renderCount = 0;
+
 export default function Page({ products }: any) {
   console.log({ products });
-  renderCount++;
+
   if (!products) return null;
+
   return (
-    <Main>
+    <Main className="all">
       <section>
         <div className="all">
-          {/* <h1>{renderCount}</h1> */}
           {/* <Filter /> */}
           {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
           {/* <button onClick={handlesetModal}>Delete</button> */}
