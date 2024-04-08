@@ -96,7 +96,6 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
           ))}
         </ul>
       </div>
-
       {selectedOptions?.map((selectedOption: any, index: number) => (
         <div key={index} className="selected-option">
           <div>item : {selectedOption.item}</div>

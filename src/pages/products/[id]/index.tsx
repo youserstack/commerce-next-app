@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: any) {
-  // await connectDB();
+  await connectDB();
   const { id } = context.params;
   console.log(colors.green(`[pages/products/${id}] 정적 프로퍼티 생성중...`));
 
