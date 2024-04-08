@@ -6,57 +6,40 @@ import connectDB from "lib/server/config/connectDB";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
-import { setLoading } from "lib/client/store/loadingSlice";
+import colors from "colors";
 
-export async function getStaticPaths(context: any) {
-  console.log(`\x1b[33m\n[pages/products/[id]]:::[getStaticPaths]\x1b[30m`);
-
+export async function getStaticPaths() {
+  console.log(colors.green("[pages/products/[id]] 정적 경로 수집중..."));
   await connectDB();
 
   const products = await Product.find({}).select("_id").exec();
   const productIds = products.map((product) => product._id.toString());
-  // console.log({ productIds });
   const paths = productIds.map((productId: any) => ({ params: { id: productId } }));
+  // console.log({ productIds });
 
-  return {
-    // paths: [{ params: { id: "123" } }],
-    paths,
-    fallback: true,
-    // fallback: false,
-    // fallback: "blocking",
-  };
+  return { paths, fallback: true };
+  // fallback: false,
+  // fallback: "blocking",
 }
 
 export async function getStaticProps(context: any) {
+  // await connectDB();
   const { id } = context.params;
-  console.log(`\x1b[33m\n[pages/products/${id}]:::[getStaticProps]\x1b[30m`);
-
-  await connectDB();
+  console.log(colors.green(`[pages/products/${id}] 정적 프로퍼티 생성중...`));
 
   const product = await Product.findById(id);
 
   // const response = await getData(`v2/products/${id}`);
   // const { product } = response.data;
-  // console.log({ product });
 
   return { props: { product: JSON.parse(JSON.stringify(product)) } };
 }
 
-// export async function getServerSideProps({ query }: any) {
-//   // params.id === query.id
-//   const { id } = query;
-//   const response = await getData(`v2/products/${id}`);
-//   const { product } = response.data;
-//   return { props: { product } };
-// }
-
 export default function Page({ product }: any) {
-  // console.log({ product });
-
-  // external
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log({ product });
     return () => {
       dispatch(setProductId(null));
       dispatch(setReviewIds([]));
@@ -66,7 +49,7 @@ export default function Page({ product }: any) {
   if (!product) return null;
 
   return (
-    <Main className="products-[id]-page">
+    <Main className="products-id">
       <section>
         <ProductDetail product={product} />
       </section>

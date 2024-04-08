@@ -2,11 +2,11 @@ import axios from "axios";
 
 const BASE_URL =
   process.env.NODE_ENV === "production" ? process.env.NEXT_PROD_ENV : process.env.NEXT_DEV_ENV;
-console.log({
-  NEXT_PROD_ENV: process.env.NEXT_PROD_ENV,
-  NEXT_DEV_ENV: process.env.NEXT_DEV_ENV,
-});
-console.log({ BASE_URL });
+// console.log({
+//   NEXT_PROD_ENV: process.env.NEXT_PROD_ENV,
+//   NEXT_DEV_ENV: process.env.NEXT_DEV_ENV,
+// });
+// console.log({ BASE_URL });
 
 export const getData = async (url: string, query?: any, token?: string) => {
   const response = await axios({

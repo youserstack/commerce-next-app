@@ -84,10 +84,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
     const pageCount = Math.ceil(productCount / ITEMS_PER_PAGE);
 
     console.log({ products, productCount, productCountPerPage: ITEMS_PER_PAGE, pageCount });
-    return res.status(200).json({
-      products,
-      pageCount,
-    });
+    return res.status(200).json({ products, pageCount });
   } catch (error) {
     console.log({ error });
     return res.status(500).json({ message: "error...." });

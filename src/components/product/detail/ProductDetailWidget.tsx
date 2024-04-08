@@ -13,7 +13,6 @@ interface Props {
   product?: any;
 }
 
-// static variable
 const options = [
   {
     item: "option1",
@@ -30,12 +29,10 @@ const options = [
 ];
 
 export default function ProductDetailWidget({ product }: Props) {
-  // external
   const { name, price, description, category, seller, stock, ratings, images, reviews } = product;
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 
-  // internal
   const [total, setTotal]: any = useState(0);
   const [selectedOptions, setSelectedOptions]: any = useState([]);
 
@@ -47,13 +44,6 @@ export default function ProductDetailWidget({ product }: Props) {
     () => setTotal(selectedOptions.reduce((a: any, v: any) => a + v.price * v.quantity, 0)),
     [selectedOptions]
   );
-
-  // useEffect(() => {
-  //   // if (total) console.log({ total });
-  // }, [total]);
-  // useEffect(() => {
-  //   if (cart.products.length) console.log({ cart });
-  // }, [cart]);
 
   return (
     <Box className="product-detail-widget box">

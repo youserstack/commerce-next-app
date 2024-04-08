@@ -10,7 +10,7 @@ import { slideImages } from "../data/slide-images";
 import colors from "colors";
 
 export async function getStaticProps({ req }: any) {
-  console.log(colors.green("[/] getStaticProps로부터 데이터베이스 조회중...."));
+  console.log(colors.green("[/] 홈페이지 정적 생성중..."));
 
   await connectDB();
   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import colors from "colors";
 
 export default async function connectDB() {
   // console.log({ "mongoose.connection": mongoose.connection });
@@ -29,11 +30,13 @@ export default async function connectDB() {
   return new Promise(async (resolve: any, reject: any) => {
     try {
       await mongoose.connect(process.env.MONGODB_URI, config);
-      console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]\x1b[30m`);
-      console.log("\x1b[32mConnected\x1b[30m");
+      // console.log(
+      //   colors.green(`[mongodb.connection.name] `) + colors.red(`${mongoose.connection.name}`)
+      // );
+      console.log(colors.green("mongodb connected..."));
       resolve();
     } catch (error) {
-      console.log(`\x1b[31m\n[connectDB:ERROR]\x1b[30m`);
+      console.log(colors.red("mongodb connection error..."));
       console.log(error);
       reject();
     }

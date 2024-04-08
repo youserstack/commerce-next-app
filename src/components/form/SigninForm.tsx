@@ -11,7 +11,6 @@ import { setCredentials } from "lib/client/store/authSlice";
 
 export default function SigninForm() {
   const dispatch = useDispatch();
-
   const router = useRouter();
   const {
     register,
@@ -86,12 +85,12 @@ export default function SigninForm() {
       <div className="partition" />
 
       <button className="signin-with-naver" onClick={(e) => signinWithOauth(e, "naver")}>
-        <SiNaver size={14} />
+        <SiNaver size={16} />
         Sign in with Naver
       </button>
 
       <button className="signin-with-kakao" onClick={(e) => signinWithOauth(e, "kakao")}>
-        {/* <SiKakaotalk size={14} /> */}
+        <SiKakaotalk size={16} />
         Sign in with Kakao
       </button>
     </Box>
@@ -172,6 +171,11 @@ const Box = styled.div`
     background-color: #03c75a;
   }
   .signin-with-kakao {
-    background-color: #d6bd00;
+    background-color: #fee500;
+    color: #191919;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
   }
 `;
