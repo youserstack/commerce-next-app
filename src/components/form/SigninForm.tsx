@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
-import { SiKakaotalk, SiNaver } from "react-icons/si";
+import { SiNaver } from "react-icons/si";
 import { signIn } from "next-auth/react";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { postData } from "lib/client/utils/fetchData";
 import { setCredentials } from "lib/client/store/authSlice";
+import Image from "next/image";
 
 export default function SigninForm() {
   const dispatch = useDispatch();
@@ -90,7 +91,8 @@ export default function SigninForm() {
       </button>
 
       <button className="signin-with-kakao" onClick={(e) => signinWithOauth(e, "kakao")}>
-        <SiKakaotalk size={16} />
+        {/* <SiKakaotalk size={16} /> */}
+        <Image src={"/images/kakao.svg"} alt="" width={100} height={100} />
         Sign in with Kakao
       </button>
     </Box>
@@ -176,6 +178,13 @@ const Box = styled.div`
     &:hover {
       background-color: #000;
       color: #fff;
+    }
+    &:hover img {
+      filter: invert();
+    }
+
+    img {
+      width: 18px;
     }
   }
 `;

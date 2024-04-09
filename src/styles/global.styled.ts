@@ -64,8 +64,22 @@ export const GlobalStyled = styled.createGlobalStyle`
       return css`
         html {
           header {
+            color: #fff;
+
             .nav-upper {
               background-color: #111;
+            }
+
+            .account-icon-hover-menu {
+              background-color: #333;
+
+              .arrow {
+                background-color: #333;
+              }
+
+              .partition {
+                border-color: #fff;
+              }
             }
 
             .hover-menu {
@@ -78,6 +92,11 @@ export const GlobalStyled = styled.createGlobalStyle`
               .partition {
                 border-color: #757575;
               }
+            }
+
+            a:hover,
+            button:hover {
+              color: #808080;
             }
           }
 
