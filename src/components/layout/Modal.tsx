@@ -40,25 +40,14 @@ const Reviewer = ({ data }: any) => {
     </div>
   );
 };
-const Creator = (data: any) => {
-  return (
-    <Box style={{ borderColor: "#00aaff" }} onClick={(e) => e.stopPropagation()}>
-      <CreateProductForm />
-    </Box>
-  );
-};
 
 export default function Modal() {
-  // external
   const { data: session } = useSession();
   const { accessToken: token } = useSelector((store: any) => store.auth);
   const { type, data, id, ids } = useSelector((store: any) => store.modal);
   const dispatch = useDispatch();
-
-  // internal
   const router = useRouter();
 
-  // handle
   const handleClose = () => dispatch(setModal(null));
   const handleDeleteItem = async () => {
     const deleteProduct = async () => {
@@ -109,65 +98,43 @@ export default function Modal() {
     handleClose();
   };
 
-  // render the null
-  if (!type) {
-    return null;
-    // console.log({ type });
-    // if (!modal.hasOwnProperty() && !modal.type) return null;
-    // if (Object.keys(modal).length === 0) return null;
-    // const { type, data, id, ids } = modal;
-  }
-  // render the viewer or reviewer
-  if (type === "VIEW" || type === "REVIEW") {
-    console.log({ data });
-    return (
-      <Background onClick={handleClose}>
-        <Box style={{ borderColor: "#222" }} onClick={(e) => e.stopPropagation()}>
-          {type === "VIEW" && <Image src={data} alt="alt" width={500} height={500} />}
-          {type === "REVIEW" && <Reviewer data={data} />}
-        </Box>
-      </Background>
-    );
-  }
-  // render the creator
-  if (type.split("_")[0] === "CREATE") {
-    return (
-      <Background onClick={handleClose}>
-        <Box style={{ borderColor: "#00aaff" }} onClick={(e) => e.stopPropagation()}>
-          {type === "CREATE_PRODUCT" && <CreateProductForm />}
-          {type === "CREATE_PRODUCT_REVIEW" && <CreateProductReviewForm />}
-        </Box>
-      </Background>
-    );
-  }
-  // render the deleter
-  if (type.split("_")[0] === "DELETE") {
-    return (
-      <Background onClick={handleClose}>
-        <Box style={{ borderColor: "#c15151" }} onClick={(e) => e.stopPropagation()}>
-          <div className="top">
-            <h1>{type || "undefined type"}</h1>
-          </div>
-          <div className="middle">
-            <p>
-              {type === "DELETE_CART_ITEM" && "Do you want to delete this item?"}
-              {type === "DELETE_ITEMS" && "Do you want to delete these items?"}
-              {type === "DELETE_PRODUCT" && "Do you want to delete this product?"}
-              {type === "DELETE_PRODUCTS" && "Do you want to delete these products?"}
-            </p>
-          </div>
-          <div className="bottom">
-            <button className="delete-button" onClick={handleDeleteItem}>
-              Delete
-            </button>
-            <button className="cancel-button" onClick={handleClose}>
-              Cancel
-            </button>
-          </div>
-        </Box>
-      </Background>
-    );
-  }
+  if (!type) return null;
+
+  return (
+    <Background onClick={handleClose}>
+      <Box onClick={(e) => e.stopPropagation()}>
+        {type === "VIEW" && (
+          <Image className="image" src={data} alt="alt" width={500} height={500} />
+        )}
+        {type === "REVIEW" && <Reviewer data={data} />}
+        {type === "CREATE_PRODUCT" && <CreateProductForm />}
+        {type === "CREATE_PRODUCT_REVIEW" && <CreateProductReviewForm />}
+        {type.split("_")[0] === "DELETE" && (
+          <>
+            <div className="top">
+              <h1>{type || "undefined type"}</h1>
+            </div>
+            <div className="middle">
+              <p>
+                {type === "DELETE_CART_ITEM" && "Do you want to delete this item?"}
+                {type === "DELETE_ITEMS" && "Do you want to delete these items?"}
+                {type === "DELETE_PRODUCT" && "Do you want to delete this product?"}
+                {type === "DELETE_PRODUCTS" && "Do you want to delete these products?"}
+              </p>
+            </div>
+            <div className="bottom">
+              <button className="delete-button" onClick={handleDeleteItem}>
+                Delete
+              </button>
+              <button className="cancel-button" onClick={handleClose}>
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
+      </Box>
+    </Background>
+  );
 }
 
 const Background = styled.div`
@@ -199,19 +166,9 @@ const Box = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 
-  /* animation: pop 0.3s;
-  @keyframes pop {
-    0% {
-      display: none;
-      opacity: 0;
-      transform: translateY(10rem);
-    }
-    100% {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-  } */
+  .image {
+    max-height: 80vh;
+  }
 
   > .top {
     > hr {
@@ -235,7 +192,6 @@ const Box = styled.div`
 
   /* review */
   .review {
-    /* height 100% */
     max-height: 700px;
     flex: 1;
     display: flex;

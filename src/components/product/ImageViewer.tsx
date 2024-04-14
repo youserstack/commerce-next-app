@@ -9,9 +9,18 @@ interface Props {
 }
 
 export default function ImageViewer({ images }: Props) {
-  // set the image index
   const [tabIndex, setTabIndex]: any = useState(0);
   const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(
+      setModal({
+        active: true,
+        type: "VIEW",
+        data: images[tabIndex].url || images[tabIndex].secure_url,
+      })
+    );
+  };
 
   return (
     <Box className="image-viewer">
@@ -21,15 +30,7 @@ export default function ImageViewer({ images }: Props) {
           alt={images[tabIndex].url || images[tabIndex].secure_url}
           width={500}
           height={500}
-          onClick={() =>
-            dispatch(
-              setModal({
-                active: true,
-                type: "VIEW_IMAGE",
-                src: images[tabIndex].url || images[tabIndex].secure_url,
-              })
-            )
-          }
+          onClick={handleClick}
         />
       </div>
       <div className="unselected-images">
@@ -42,16 +43,7 @@ export default function ImageViewer({ images }: Props) {
             width={500}
             height={500}
             onMouseEnter={() => setTabIndex(index)}
-            // onClick={() => setTabIndex(index)}
-            onClick={() =>
-              dispatch(
-                setModal({
-                  active: true,
-                  type: "VIEW_IMAGE",
-                  src: image.url || image.secure_url,
-                })
-              )
-            }
+            onClick={handleClick}
           />
         ))}
       </div>
@@ -63,20 +55,25 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
   .selected-image {
     height: 20rem;
   }
+
   .unselected-images {
     display: flex;
     gap: 0.5rem;
+
     > img {
       width: 3rem;
       height: 3rem;
     }
+
     .active {
       outline: 2px solid black;
     }
   }
+
   img {
     cursor: pointer;
   }

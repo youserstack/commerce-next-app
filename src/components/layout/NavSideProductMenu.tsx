@@ -1,13 +1,11 @@
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { getData } from "lib/client/utils/fetchData";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function NavSideProductMenu() {
-  // external
   const sideMenu = useSelector((store: any) => store.sideMenu);
   const dispatch = useDispatch();
 
@@ -52,45 +50,6 @@ export default function NavSideProductMenu() {
       <hr />
     </Box>
   );
-  // return (
-  //   <Background
-  //     className={`nav-side-background ${isClicked ? "visible" : ""}`}
-  //     onClick={() => setIsClicked(false)}
-  //   >
-  //     <Box
-  //       className={`nav-side-product-menu ${isClicked ? "move-in-screen" : ""}`}
-  //       onClick={(e) => e.stopPropagation()}
-  //     >
-  //       <ul>
-  //         <li>
-  //           <Link href={"/products"} onClick={() => setIsClicked(false)}>
-  //             <div>All Products</div>
-  //             <IoIosArrowForward />
-  //           </Link>
-  //         </li>
-  //         <li>
-  //           <Link href={"/products?category=furnitures"} onClick={() => setIsClicked(false)}>
-  //             <div>Furnitures</div>
-  //             <IoIosArrowForward />
-  //           </Link>
-  //         </li>
-  //         <li>
-  //           <Link href={"/products?category=cosmetics"} onClick={() => setIsClicked(false)}>
-  //             <div>Cosmetics</div>
-  //             <IoIosArrowForward />
-  //           </Link>
-  //         </li>
-  //         <li>
-  //           <Link href={"/products?category=fashion"} onClick={() => setIsClicked(false)}>
-  //             <div>Fashion</div>
-  //             <IoIosArrowForward />
-  //           </Link>
-  //         </li>
-  //       </ul>
-  //       <hr />
-  //     </Box>
-  //   </Background>
-  // );
 }
 
 const Box = styled.div`

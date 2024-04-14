@@ -16,16 +16,10 @@ interface ModalState {
 
 interface ModalAction extends ModalState {
   // required properties
-  active: boolean | null; // 모달 활성화, 비활성화
+  active: boolean | null;
 }
 
 const initialState: ModalState = {};
-// {
-//   // active: true,
-//   // type: "DEFAULT",
-//   // type: "CREATE_PRODUCT",
-//   // type: "CREATE_PRODUCT_REVIEW",
-// };
 
 export const modalSlice = createSlice({
   name: "modal",

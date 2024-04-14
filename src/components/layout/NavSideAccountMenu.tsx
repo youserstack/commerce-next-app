@@ -1,23 +1,37 @@
-import axios from "axios";
 import { MdLightMode, MdNightlightRound } from "react-icons/md";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { signout } from "lib/client/utils/authUtils";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setLoading } from "lib/client/store/loadingSlice";
+import { getData } from "lib/client/utils/fetchData";
+import { setCredentials } from "lib/client/store/authSlice";
+import { useRouter } from "next/router";
 
 export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
-  // external
   const { data: session } = useSession();
   const { accessToken: token } = useSelector((store: any) => store.auth);
   const sideMenu = useSelector((store: any) => store.sideMenu);
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleSignout = () => {
-    signout(dispatch, { session, token });
+  const handleSignout = async () => {
+    dispatch(setLoading(true));
+    try {
+      if (session) {
+        await signOut({ redirect: true, callbackUrl: "/" });
+      } else if (token) {
+        await getData("v3/auth/signout");
+        router.push("/");
+      }
+      dispatch(setCredentials(null));
+    } catch (error: any) {
+      console.log({ error });
+    }
+    dispatch(setLoading(false));
     handleClose();
   };
 
@@ -26,14 +40,14 @@ export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
     dispatch(setSideMenu("hidden"));
   };
 
-  if (session || token) {
-    return (
-      <Box
-        className={`nav-side-account-menu ${
-          sideMenu.value === "account-menu" ? "move-in-screen" : "hidden"
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
+  return (
+    <Box
+      className={`nav-side-account-menu ${
+        sideMenu.value === "account-menu" ? "move-in-screen" : "hidden"
+      }`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {(session || token) && (
         <ul>
           <li>
             <Link href={"/my/account"} onClick={handleClose}>
@@ -47,96 +61,49 @@ export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
               <IoIosArrowForward />
             </Link>
           </li>
-          <button className="general-button" onClick={handleSignout}>
-            Sign out
-          </button>
-          {/* <button
-            className="general-button"
-            onClick={async (e) => {
-              e.preventDefault();
-              try {
-                const response = await axios({
-                  url: "http://localhost:3000/api/disconnect",
-                });
-                console.log({ response });
-              } catch (error) {
-                console.log({ error });
-              }
-            }}
-          >
-            DisconnectDB
-          </button> */}
-          <div
-            className="theme"
-            onClick={() => {
-              toggleTheme();
-              handleClose();
-            }}
-          >
-            <div className="theme-icon" style={{ color: theme === "dark" ? "#ff9800" : "gray" }}>
-              <MdNightlightRound />
-              Dark
-            </div>
-            <div className="theme-icon" style={{ color: theme === "light" ? "#ff9800" : "gray" }}>
-              <MdLightMode />
-              Light
-            </div>
-          </div>
+          <li>
+            <button className="general-button" onClick={handleSignout}>
+              Sign out
+            </button>
+          </li>
         </ul>
-      </Box>
-    );
-  }
+      )}
 
-  return (
-    <Box
-      className={`nav-side-account-menu ${
-        sideMenu.value === "account-menu" ? "move-in-screen" : ""
-      }`}
-      onClick={(e) => e.stopPropagation()}
-    >
+      {!(session || token) && (
+        <ul>
+          <li>
+            <Link href={"/auth/signin"} onClick={handleClose}>
+              <div>Sign in</div>
+              <IoIosArrowForward />
+            </Link>
+          </li>
+          <li>
+            <Link href={"/auth/signup"} onClick={handleClose}>
+              <div>Sign up</div>
+              <IoIosArrowForward />
+            </Link>
+          </li>
+        </ul>
+      )}
+
       <ul>
-        <li>
-          <Link href={"/auth/signin"} onClick={handleClose}>
-            <div>Sign in</div>
-            <IoIosArrowForward />
-          </Link>
-        </li>
-        <li>
-          <Link href={"/auth/signup"} onClick={handleClose}>
-            <div>Sign up</div>
-            <IoIosArrowForward />
-          </Link>
+        <li
+          className="theme"
+          onClick={() => {
+            toggleTheme();
+            handleClose();
+          }}
+        >
+          <div className="theme-icon" style={{ color: theme === "dark" ? "#ff9800" : "gray" }}>
+            <MdNightlightRound />
+            Dark
+          </div>
+          <div className="theme-icon" style={{ color: theme === "light" ? "#ff9800" : "gray" }}>
+            <MdLightMode />
+            Light
+          </div>
         </li>
       </ul>
-      <br />
-      <div
-        className="theme"
-        onClick={() => {
-          toggleTheme();
-          handleClose();
-        }}
-      >
-        <div className="theme-icon" style={{ color: theme === "dark" ? "#ff9800" : "gray" }}>
-          <MdNightlightRound />
-          Dark
-        </div>
-        <div className="theme-icon" style={{ color: theme === "light" ? "#ff9800" : "gray" }}>
-          <MdLightMode />
-          Light
-        </div>
-      </div>
-      {/* <input
-        type="checkbox"
-        id="toggle-input"
-        className="toggle-input"
-        onClick={() => {
-          toggleTheme();
-          // handleClose();
-        }}
-      />
-      <label htmlFor="toggle-input" className="toggle-button">
-        <div className="circle" />
-      </label> */}
     </Box>
   );
 }
@@ -166,7 +133,6 @@ const Box = styled.div`
     padding: 1rem;
     display: flex;
     justify-content: space-between;
-    /* padding: 1rem; */
     color: #777;
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
@@ -181,7 +147,6 @@ const Box = styled.div`
 
   .theme {
     cursor: pointer;
-    /* border: 1px solid; */
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -199,44 +164,6 @@ const Box = styled.div`
 
     svg {
       font-size: 24px;
-    }
-  }
-
-  .toggle-input {
-    display: none;
-  }
-  .toggle-button {
-    width: 70px;
-    height: 30px;
-
-    display: flex;
-    align-items: center;
-    /* width: 100%; */
-    border: 1px solid;
-    border-radius: 20px;
-    /* background-color: #777; */
-    position: relative;
-
-    cursor: pointer;
-
-    .circle {
-      width: 30px;
-      height: 20px;
-      background-color: black;
-      border-radius: 20px;
-
-      position: absolute;
-      margin: 5px;
-
-      transition: all 0.2s;
-    }
-  }
-
-  .toggle-input:checked + .toggle-button {
-    background-color: green;
-
-    .circle {
-      transform: translateX(30px);
     }
   }
 

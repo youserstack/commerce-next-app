@@ -11,66 +11,59 @@ import { useRouter } from "next/router";
 
 export default function AccountIcon() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
-  const router = useRouter();
 
-  // MOBILE only
-  const handleOpenSideMenu = () => {
-    // if (window.innerWidth > 1000) return console.log("innerWidth is over 1000px.");
-    dispatch(setBackground(true));
-    dispatch(setSideMenu("account-menu"));
-  };
+  return (
+    <Box className="account-icon">
+      <div
+        className="avatar"
+        onClick={() => {
+          dispatch(setBackground(true));
+          dispatch(setSideMenu("account-menu"));
+        }}
+      >
+        {/* 인증하고 이미지 존재시 */}
+        {(session || token) && user && user.image ? (
+          <Image src={user?.image} alt="alt" width={100} height={100} />
+        ) : (
+          <FcGlobe size={30} />
+        )}
+      </div>
 
-  const handleSignout = () => {
-    signout(dispatch, { session, token });
-    router.push("/");
-  };
-
-  if (session || token) {
-    return (
-      <Box className="account-icon authenticated ">
-        <div className="avatar-outer" onClick={handleOpenSideMenu}>
-          <div className="avatar">
-            {user?.image ? (
-              <Image src={user?.image} alt="alt" width={100} height={100} />
-            ) : (
-              <FcGlobe size={30} />
-            )}
-          </div>
-        </div>
-
+      {/* 인증시 */}
+      {(session || token) && (
         <div className="account-icon-hover-menu">
           <div className="arrow" />
           <Link href={"/my/account"}>
             <p>My Account</p>
           </Link>
-          {/* {user.role === "admin" && <></>} */}
           {user?.role === "user" && (
             <Link href={"/my/orders"}>
               <p>Order List</p>
             </Link>
           )}
           <div className="partition"></div>
-          <button onClick={handleSignout}>Sign out</button>
+          <button
+            onClick={() => {
+              signout(dispatch, { session, token });
+              router.push("/");
+            }}
+          >
+            Sign out
+          </button>
         </div>
-      </Box>
-    );
-  }
+      )}
 
-  return (
-    <Box className="account-icon ">
-      <div className="avatar-outer">
-        <div className="avatar" onClick={handleOpenSideMenu}>
-          <FcGlobe size={30} />
+      {/* 미인증시 */}
+      {!(session || token) && (
+        <div className="account-icon-hover-menu">
+          <div className="arrow" />
+          <Link href={"/auth/signin"}>Sign in</Link>
+          <Link href={"/auth/signup"}>Sign up</Link>
         </div>
-      </div>
-
-      <div className="account-icon-hover-menu">
-        <div className="arrow" />
-        <Link href={"/auth/signin"}>Sign in</Link>
-        <Link href={"/auth/signup"}>Sign up</Link>
-      </div>
+      )}
     </Box>
   );
 }
@@ -80,33 +73,19 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  height: 100%;
+  &:hover .account-icon-hover-menu {
+    display: block;
+  }
 
-  .avatar-outer {
-    height: 100%;
+  .avatar {
+    overflow: hidden;
+    cursor: pointer;
     display: flex;
-    align-items: center;
-    padding: 12px;
 
-    &:hover {
-      color: #fff;
-    }
-
-    &:hover + .account-icon-hover-menu {
-      display: block;
-    }
-
-    .avatar {
-      border: 2px solid coral;
-      border-radius: 50%;
-      overflow: hidden;
-      cursor: pointer;
-
-      display: flex;
-
-      img {
-        width: 30px;
-        height: 30px;
-      }
+    img {
+      width: 30px;
+      height: 30px;
     }
   }
 
@@ -116,7 +95,6 @@ const Box = styled.div`
     white-space: nowrap;
     padding: 1rem;
     display: none;
-
     &:hover {
       display: block;
     }
