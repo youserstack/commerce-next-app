@@ -10,7 +10,7 @@ export default function Orders() {
   const auth = useSelector((store: any) => store.auth);
   const { orders, isLoading } = useOrders(auth.accessToken);
 
-  // 초기로드시 토큰이 있을시, 키값으로 데이터패칭
+  // 초기로드시 토큰이 있을시, 키값으로 데이터패칭 (global mutate)
   useEffect(() => {
     if (auth.accessToken) mutate("/api/v2/orders");
   }, [auth.accessToken]);
