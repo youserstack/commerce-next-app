@@ -84,6 +84,8 @@ const Background = styled.div`
 `;
 
 const Box = styled.form`
+  flex: 0.5;
+  background-color: transparent;
   .search-form {
     display: flex;
     border-radius: 5px;

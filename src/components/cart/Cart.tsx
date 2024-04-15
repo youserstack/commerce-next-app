@@ -5,23 +5,19 @@ import Link from "next/link";
 import styled from "styled-components";
 import { setModal } from "lib/client/store/modalSlice";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { setOrderSheet } from "lib/client/store/orderSheetSlice";
 
 export default function Cart({ product }: any) {
-  // exteranl
   const { _id, name, price, images, seller, stock, quantity, options } = product;
   const { data: session } = useSession();
   const { user } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // internal
   const [paymentAmount, setPaymentAmount]: any = useState(0);
 
-  // handle
   const handleOpenModal = () => dispatch(setModal({ type: "DELETE_CART_ITEM", id: _id }));
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));

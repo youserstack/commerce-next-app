@@ -4,7 +4,6 @@ import Option from "@/components/product/Option";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addToCart } from "lib/client/store/cartSlice";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
@@ -13,7 +12,6 @@ interface Props {
   product?: any;
 }
 
-// static variable
 const options = [
   {
     item: "option1",
@@ -30,12 +28,10 @@ const options = [
 ];
 
 export default function ProductDetailWidget({ product }: Props) {
-  // external
   const { name, price, description, category, seller, stock, ratings, images, reviews } = product;
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 
-  // internal
   const [total, setTotal]: any = useState(0);
   const [selectedOptions, setSelectedOptions]: any = useState([]);
 
@@ -47,13 +43,6 @@ export default function ProductDetailWidget({ product }: Props) {
     () => setTotal(selectedOptions.reduce((a: any, v: any) => a + v.price * v.quantity, 0)),
     [selectedOptions]
   );
-
-  // useEffect(() => {
-  //   // if (total) console.log({ total });
-  // }, [total]);
-  // useEffect(() => {
-  //   if (cart.products.length) console.log({ cart });
-  // }, [cart]);
 
   return (
     <Box className="product-detail-widget box">
@@ -114,7 +103,7 @@ export default function ProductDetailWidget({ product }: Props) {
             className="add-button"
             onClick={() => {
               const duplicate = cart.products.find((v: any) => v._id === product._id);
-              if (duplicate) return toast.error("Already added it");
+              if (duplicate) return console.log("Already added it");
               if (!selectedOptions.length)
                 return alert(
                   "You do not have a option. please select the option.\n(옵션을 선택하지 않으셨습니다. 옵션을 선택해주세요.)"

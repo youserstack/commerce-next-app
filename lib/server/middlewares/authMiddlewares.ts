@@ -19,7 +19,7 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   // get the accessToken (auth method 2)
   const authorization = req.headers.authorization || req.headers.Authorization;
   const accessToken = authorization?.split(" ")[1];
-  // console.log({ accessToken });
+  console.log({ authorization });
 
   // verify
   const verified: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);

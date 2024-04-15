@@ -15,10 +15,10 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
 
   const handleUnfoldOptions = (e: any) => {
     e.stopPropagation();
-    optionListRef.current.classList.add("option-list-open");
+    optionListRef.current.classList.add("visible");
   };
   const handleAddOption = (option: any) => {
-    optionListRef.current.classList.remove("option-list-open");
+    optionListRef.current.classList.remove("visible");
     const newItem = { item: option.item, price: option.price, quantity: 1 };
     // console.log({ newItem });
     setSelectedOptions((state: any) => {
@@ -36,7 +36,7 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
   };
 
   useEffect(() => {
-    const handleClick = () => optionListRef.current.classList.remove("option-list-open");
+    const handleClick = () => optionListRef.current.classList.remove("visible");
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
   }, []);
@@ -79,25 +79,23 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
   return (
     <Box className="option">
       <div className="folded-option">
-        <a className="option-guide" onClick={handleUnfoldOptions}>
-          Select the item
-        </a>
-
+        <li className="option-placeholder" onClick={handleUnfoldOptions}>
+          옵션을 선택해주세요
+        </li>
         <ul className="option-list" ref={optionListRef}>
           <li
             className="option-item"
             onClick={() => handleAddOption({ item: product.name, price: product.price })}
           >
-            <a href="#">{product.name}</a>
+            {product.name}
           </li>
           {options.map((option: any) => (
             <li key={option.item} className="option-item" onClick={() => handleAddOption(option)}>
-              <a href="#">{option.item}</a>
+              {option.item}
             </li>
           ))}
         </ul>
       </div>
-
       {selectedOptions?.map((selectedOption: any, index: number) => (
         <div key={index} className="selected-option">
           <div>item : {selectedOption.item}</div>
@@ -159,38 +157,33 @@ const Box = styled.div`
   gap: 1rem;
 
   .folded-option {
-    position: relative;
-    background-color: #9e9e9e;
+    border: 1px solid #bbb;
 
-    .option-guide {
-      width: 100%;
+    .option-placeholder {
       display: block;
-      border: 1px solid #ededed;
       padding: 0.5rem;
+      background-color: #e0e0e0;
+      cursor: pointer;
     }
 
     .option-list {
-      width: 100%;
       transition: all 1s;
-      position: absolute;
-      top: 100%;
-      background-color: #9e9e9e;
       color: #000;
-      border: 1px solid #ededed;
       border-top: none;
       display: none;
+      background-color: #e0e0e0;
 
       .option-item {
-        a {
-          width: 100%;
-          height: 100%;
-          padding: 0.5rem;
-          display: block;
+        border-top: 1px solid #bbb;
+        padding: 0.5rem;
+        cursor: pointer;
+        &:hover {
+          background-color: #aaa;
         }
       }
     }
 
-    .option-list-open {
+    .visible {
       display: block;
     }
   }
@@ -200,7 +193,7 @@ const Box = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem;
-    background-color: #424242;
+    background-color: #e0e0e0;
     border-radius: 5px;
 
     .option-controller {

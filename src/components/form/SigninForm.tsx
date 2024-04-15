@@ -3,15 +3,15 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
-import { SiKakaotalk, SiNaver } from "react-icons/si";
+import { SiNaver } from "react-icons/si";
 import { signIn } from "next-auth/react";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { postData } from "lib/client/utils/fetchData";
 import { setCredentials } from "lib/client/store/authSlice";
+import Image from "next/image";
 
 export default function SigninForm() {
   const dispatch = useDispatch();
-
   const router = useRouter();
   const {
     register,
@@ -27,8 +27,14 @@ export default function SigninForm() {
     dispatch(setLoading(true));
     const response = await postData("v2/auth/signin", data);
     const { user, accessToken } = response.data;
+    if (!accessToken) {
+      console.error("No accessToken");
+      dispatch(setLoading(false));
+      return;
+    }
     dispatch(setCredentials({ user, accessToken }));
     dispatch(setLoading(false));
+    router.push("/my/account");
   };
 
   const signinWithCredentials = async (data: any) => {
@@ -86,12 +92,13 @@ export default function SigninForm() {
       <div className="partition" />
 
       <button className="signin-with-naver" onClick={(e) => signinWithOauth(e, "naver")}>
-        <SiNaver size={14} />
+        <SiNaver size={16} />
         Sign in with Naver
       </button>
 
       <button className="signin-with-kakao" onClick={(e) => signinWithOauth(e, "kakao")}>
-        {/* <SiKakaotalk size={14} /> */}
+        {/* <SiKakaotalk size={16} /> */}
+        <Image src={"/images/kakao.svg"} alt="" width={100} height={100} />
         Sign in with Kakao
       </button>
     </Box>
@@ -172,6 +179,18 @@ const Box = styled.div`
     background-color: #03c75a;
   }
   .signin-with-kakao {
-    background-color: #d6bd00;
+    background-color: #fee500;
+    color: #191919;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    &:hover img {
+      filter: invert();
+    }
+
+    img {
+      width: 18px;
+    }
   }
 `;

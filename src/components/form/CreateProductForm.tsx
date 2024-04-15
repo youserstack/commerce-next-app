@@ -1,10 +1,8 @@
 import { setModal } from "lib/client/store/modalSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import logResponse from "lib/client/log/logResponse";
-import logError from "lib/client/log/logError";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -12,11 +10,9 @@ import Image from "next/image";
 import axios from "axios";
 
 export default function CreateProductForm() {
-  // external
   const dispatch = useDispatch();
   const auth = useSelector((store: any) => store.auth);
 
-  // internal
   const [product, setProduct]: any = useState({});
   const [images, setImages]: any = useState([]);
   const router = useRouter();
@@ -26,11 +22,10 @@ export default function CreateProductForm() {
   const handleCreateProduct = async (data: any) => {
     console.log("data : ", data);
     console.log({ images: images });
-    // return;
 
     // check validation
-    if (images.length === 0) return toast.error("Please fill the image field.");
-    if (data.category === "all") return toast.error("Please fill the category field.");
+    if (images.length === 0) return console.log("Please fill the image field.");
+    if (data.category === "all") return console.log("Please fill the category field.");
 
     // set the formData
     const formData: any = new FormData();
@@ -50,20 +45,17 @@ export default function CreateProductForm() {
         data: formData,
       });
       logResponse(response);
-      dispatch(setLoading(false));
-      toast.success("A product was created");
       router.push({ pathname: router.pathname });
     } catch (error: any) {
-      logError(error);
-      dispatch(setLoading(false));
-      toast.error(error.message);
+      console.log({ error });
     }
+    dispatch(setLoading(false));
   };
+
   const handleDeleteButton = (e: any, index: any) => {
     e.preventDefault();
     const filteredImages = images.filter((v: any, i: any) => i !== index);
     setImages(filteredImages);
-    // console.log(filteredImages);
     // setValue("images", filteredImages);
   };
   const handleChangeFiles = (e: any) => {

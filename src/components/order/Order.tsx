@@ -1,14 +1,11 @@
 import { setModal } from "lib/client/store/modalSlice";
-import { deleteOrder } from "lib/client/store/ordersSlice";
 import { deleteData } from "lib/client/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 
 export default function Order({ order }: any) {
-  // external
   const { productInfo, deliveryInfo, payInfo } = order;
   const { productId, imageUrl, options } = productInfo;
   // const { isDelivered } = deliveryInfo;
@@ -16,15 +13,11 @@ export default function Order({ order }: any) {
   const { accessToken: token } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
 
-  // internal
-  // const [expanded, setExpanded]: any = useState(false);
-
   const handleDeleteOrder = () => {
     const modalAction = async () => {
       try {
         const response = await deleteData(`v2/orders/${order._id}`, null, token);
         console.log({ data: response.data });
-        dispatch(deleteOrder({ _id: response.data.deletedOrder._id }));
       } catch (error) {
         console.log({ error });
       }

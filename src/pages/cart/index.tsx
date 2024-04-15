@@ -4,61 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { getData } from "lib/client/utils/fetchData";
 import styled from "styled-components";
-import { toast } from "react-toastify";
 import Cart from "@/components/cart/Cart";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export async function getServerSideProps({ req, res, query }: any) {
   console.log(`\x1b[32m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
-
-  // get the User id from session
   const session = await getServerSession(req, res, authOptions);
-  // if (!session) {
-  //   return {
-  //     redirect: {
-  //       destination: "/auth/signin",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
   return { props: { session } };
 }
 
 export default function Page({ session }: any) {
-  // external
+  const { user, accessToken: token } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
-  const auth = useSelector((store: any) => store.auth);
-  const cart = useSelector((store: any) => store.cart);
-
-  // internal
   const router = useRouter();
+  const cart = useSelector((store: any) => store.cart);
   const [total, setTotal]: any = useState(0);
 
-  // const handleOrder = (e: any) => {
-  //   e.preventDefault();
-  //   if (!auth.accessToken) {
-  //     toast.error("You have to log in");
-  //     return router.push("/auth/signin");
-  //   }
-  //   // const { address, mobile } = data;
-  //   // const payload = {
-  //   //   address,
-  //   //   mobile,
-  //   //   cart,
-  //   //   total,
-  //   // };
-  //   // dispatch(addOrder(payload));
-  //   router.push("/order");
-  // };
-
+  // 초기로드시 카트목록최신화
   useEffect(() => {
     const getCartFromStorage = () => {
       const serializedCart: any = localStorage.getItem("cart");
       const parsedCart = JSON.parse(serializedCart);
       return parsedCart;
     };
+
     const fetchLatestData = async (products: any) => {
       let latestProducts: any = [];
 
@@ -66,15 +36,15 @@ export default function Page({ session }: any) {
         try {
           const response = await getData(`products/${product._id}`);
           const latestProduct = response.data.product;
-          if (!latestProduct) return toast.error("No product");
+          if (!latestProduct) return console.log("No product");
 
           // in stock
           if (latestProduct.stock)
             latestProducts.push({ ...latestProduct, options: product.options });
           // out stock
-          else toast.error(`${latestProduct.name} product is out stock.`);
+          else console.log(`${latestProduct.name} product is out stock.`);
         } catch (error: any) {
-          toast.error(error.message);
+          console.log(error.message);
         }
       }
 
@@ -93,6 +63,7 @@ export default function Page({ session }: any) {
       });
   }, []);
 
+  // 카트목록변경시 전체합계계산
   useEffect(() => {
     const handleSetTotal = () => {
       if (cart.products?.length)
@@ -103,30 +74,9 @@ export default function Page({ session }: any) {
           }, 0)
         );
     };
+
     handleSetTotal();
   }, [cart]);
-
-  const handleLog = () => {
-    if (cart.products?.length) console.log({ "cart.products": cart.products });
-  };
-  useEffect(handleLog, [cart.products]);
-
-  // useEffect(() => {
-  //   // console.log({ session });
-  //   // console.log({ isSession: session ? true : false });
-  // }, [session]);
-
-  if (!cart.products?.length) {
-    return (
-      <Main className="cart-page">
-        <section>
-          <div className="cart">
-            <h1>No cart items</h1>
-          </div>
-        </section>
-      </Main>
-    );
-  }
 
   return (
     <Main className="cart-page">
@@ -134,9 +84,10 @@ export default function Page({ session }: any) {
         <div className="cart-list-outer">
           <h1 className="cart-title box">Shopping Cart</h1>
           <ul className="cart-list">
-            {cart.products.map((product: any, index: number) => (
-              <Cart key={index} product={product} />
-            ))}
+            {cart.products &&
+              cart.products.map((product: any, index: number) => (
+                <Cart key={index} product={product} />
+              ))}
           </ul>
           <h3 className="cart-total box">Total (총합) : ${total}</h3>
         </div>

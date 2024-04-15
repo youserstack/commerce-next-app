@@ -60,11 +60,8 @@ export const signin = async (req: any, res: any) => {
 };
 
 export const refresh = async (req: any, res: any) => {
-  // console.log(`\x1b[32m\n<refresh>`);
-
   // get
   const { refreshToken } = req.cookies;
-  // console.log({ refreshToken });
   if (!refreshToken) return res.status(401).json({ message: "No refreshToken" });
 
   // find
@@ -73,6 +70,7 @@ export const refresh = async (req: any, res: any) => {
     .select("_id name email password role image")
     .exec();
   if (!foundUser) return res.status(401).json({ message: "The foundUser do not exist." });
+
   // verify the refreshToken
   try {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);

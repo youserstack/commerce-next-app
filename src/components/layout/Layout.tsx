@@ -14,11 +14,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
 
 export default function Layout({ children }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const loading = useSelector((store: any) => store.loading);
 
   // theme
   const [theme, setTheme]: any = useState("light");
@@ -36,17 +36,17 @@ export default function Layout({ children }: any) {
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
   useEffect(() => {
-    if (!session) return;
+    if (!session || token) return;
     const { user } = session;
     const credentials = { user };
     dispatch(setCredentials(credentials));
   }, [session, dispatch]);
   // if no token, refresh the token (general)
-  // useEffect(() => {
-  //   if (session) return;
-  //   console.log({ token });
-  //   if (!token) refreshAuth(dispatch);
-  // }, [token, dispatch]);
+  useEffect(() => {
+    if (session || token) return;
+    console.log({ token });
+    if (!token) refreshAuth(dispatch);
+  }, [token, dispatch]);
 
   // cart
   const cart = useSelector((store: any) => store.cart);
@@ -78,19 +78,7 @@ export default function Layout({ children }: any) {
       </Head>
 
       <GlobalStyled theme={theme} />
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-      {router.pathname === "/" ? null : <Loading />}
+      {loading && router.pathname !== "/" && <Loading />}
       <Background />
       <NavSideProductMenu />
       <NavSideAccountMenu theme={theme} toggleTheme={toggleTheme} />
