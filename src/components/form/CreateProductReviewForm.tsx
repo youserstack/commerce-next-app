@@ -8,17 +8,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export default function CreateProductReviewForm() {
-  // external
   const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
   const { active, type, message, id, ids, modalAction, actionLabel, disabled } = modal;
   const dispatch = useDispatch();
 
-  // internal
   const router = useRouter();
   const {
     register,
@@ -88,7 +85,6 @@ export default function CreateProductReviewForm() {
       // console.log(first)
     } catch (error: any) {
       logError(error);
-      toast.error(error.message);
       dispatch(setModal({ active: false }));
     }
   };

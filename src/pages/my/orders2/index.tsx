@@ -8,13 +8,10 @@ import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export async function getServerSideProps({ req, res, query }: any) {
   console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
-  // console.log({ "Object.keys(req)": Object.keys(req) });
-  // console.log({ "Object.entries(req)": Object.entries(req) });
 
   await connectDB();
 
@@ -55,7 +52,6 @@ export default function Page({ orders }: any) {
   //       const { orders } = response.data;
   //       console.log({ orders });
   //     } catch (error: any) {
-  //       toast.error(error.message);
   //       console.log({ error });
   //     }
   //   };

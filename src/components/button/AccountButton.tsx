@@ -9,7 +9,7 @@ import { FcGlobe } from "react-icons/fc";
 import { signout } from "lib/client/utils/authUtils";
 import { useRouter } from "next/router";
 
-export default function AccountIcon() {
+export default function AccountButton() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { data: session } = useSession();
@@ -74,6 +74,8 @@ const Box = styled.div`
   justify-content: center;
   position: relative;
   height: 100%;
+  padding: 10px;
+  border: 1px solid red;
   &:hover .account-icon-hover-menu {
     display: block;
   }

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { setProductIds } from "lib/client/store/productManagerSlice";
 

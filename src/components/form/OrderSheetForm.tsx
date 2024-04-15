@@ -6,21 +6,18 @@ import { useEffect, useRef, useState } from "react";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { addOrder } from "lib/client/store/ordersSlice";
 import { clearCart } from "lib/client/store/cartSlice";
-import { toast } from "react-toastify";
 import { postData } from "lib/client/utils/fetchData";
 import { useSession } from "next-auth/react";
 import Paypal from "@/components/button/Paypal";
 import { setOrderSheet } from "lib/client/store/orderSheetSlice";
 
 export default function OrderSheetForm() {
-  // external
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
   const orderSheet = useSelector((store: any) => store.orderSheet);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // internal
   const {
     register,
     handleSubmit,
@@ -30,7 +27,6 @@ export default function OrderSheetForm() {
   const [payType, setPayType]: any = useState("prepay");
   const [isPayNowClicked, setIsPayNowClicked] = useState(false);
 
-  // handle
   const handleOrder = async (data: any) => {
     // integrate the order data
     const { name, email, address, mobile } = data;

@@ -14,7 +14,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
 
 export default function Layout({ children }: any) {
   const router = useRouter();
@@ -78,18 +77,6 @@ export default function Layout({ children }: any) {
       </Head>
 
       <GlobalStyled theme={theme} />
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       {router.pathname === "/" ? null : <Loading />}
       <Background />
       <NavSideProductMenu />

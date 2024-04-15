@@ -11,7 +11,6 @@ export const prepay = async (dispatch: any, order: any, token: any) => {
     // router.push(`/order/${order._id}`);
   } catch (error: any) {
     console.log({ error });
-    // toast.error(error.message);
   }
   dispatch(setLoading(false));
 };

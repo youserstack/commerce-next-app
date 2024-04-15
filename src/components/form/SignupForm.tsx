@@ -6,15 +6,12 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export default function SignupForm() {
-  // external
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // internal
   const {
     register,
     handleSubmit,
@@ -28,21 +25,18 @@ export default function SignupForm() {
 
   const handleSignup = async (data: any) => {
     console.log({ data });
-    // return;
 
     try {
       dispatch(setLoading(true));
       const response: any = await postData("v2/auth/signup", data);
       logResponse(response);
       dispatch(setLoading(false));
-      toast.success("signup success");
       // reset();
       setFocus("name");
       router.push("/auth/signin");
     } catch (error: any) {
       logError(error);
       dispatch(setLoading(false));
-      toast.error("signup failed");
     }
   };
 

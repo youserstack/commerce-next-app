@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { styled } from "styled-components";
 import { IoIosGlobe, IoIosMenu } from "react-icons/io";
-import AccountIcon from "@/components/auth/AccountIcon";
+import AccountButton from "@/components/button/AccountButton";
 import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "@/components/layout/Search";
@@ -25,7 +25,7 @@ export default function Nav() {
             <IoIosGlobe size={30} />
           </Link>
           <Search />
-          <AccountIcon />
+          <AccountButton />
         </section>
       </div>
       <div className="nav-lower">

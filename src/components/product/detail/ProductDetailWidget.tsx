@@ -4,7 +4,6 @@ import Option from "@/components/product/Option";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { addToCart } from "lib/client/store/cartSlice";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
@@ -104,7 +103,7 @@ export default function ProductDetailWidget({ product }: Props) {
             className="add-button"
             onClick={() => {
               const duplicate = cart.products.find((v: any) => v._id === product._id);
-              if (duplicate) return toast.error("Already added it");
+              if (duplicate) return console.log("Already added it");
               if (!selectedOptions.length)
                 return alert(
                   "You do not have a option. please select the option.\n(옵션을 선택하지 않으셨습니다. 옵션을 선택해주세요.)"
