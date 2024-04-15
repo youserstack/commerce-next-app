@@ -28,7 +28,7 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #ccc;
             }
 
-            .account-icon-hover-menu {
+            .hover-menu {
               background-color: #aaa;
 
               .arrow {
@@ -70,7 +70,7 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #111;
             }
 
-            .account-icon-hover-menu {
+            .hover-menu {
               background-color: #333;
 
               .arrow {
@@ -161,17 +161,6 @@ export const GlobalStyled = styled.createGlobalStyle`
           margin: auto;
         }
       }
-
-      @media (max-width: 1000px), (width <= 1000px) {
-        nav .nav-belt .nav-belt-right {
-          .account-icon .avatar-outer {
-            cursor: pointer;
-            &:hover + .hover-menu {
-              display: none;
-            }
-          }
-        }
-      }
     }
 
     main {
@@ -199,9 +188,13 @@ export const GlobalStyled = styled.createGlobalStyle`
 
     footer {
       color: #fff;
+    }
+  }
 
-      @media (max-width: 500px), (width <= 500px) {
-        background-attachment: initial !important;
+  /* mobile layout */
+  html {
+    @media (max-width: 500px) {
+      footer {
         .footer-content {
           flex-direction: column;
         }

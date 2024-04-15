@@ -27,8 +27,14 @@ export default function SigninForm() {
     dispatch(setLoading(true));
     const response = await postData("v2/auth/signin", data);
     const { user, accessToken } = response.data;
+    if (!accessToken) {
+      console.error("No accessToken");
+      dispatch(setLoading(false));
+      return;
+    }
     dispatch(setCredentials({ user, accessToken }));
     dispatch(setLoading(false));
+    router.push("/my/account");
   };
 
   const signinWithCredentials = async (data: any) => {

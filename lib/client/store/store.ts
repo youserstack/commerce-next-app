@@ -10,6 +10,7 @@ import { backgroundSlice } from "lib/client/store/backgroundSlice";
 import { loadingSlice } from "lib/client/store/loadingSlice";
 import { sideMenuSlice } from "lib/client/store/sideMenuSlice";
 import { modalSlice } from "lib/client/store/modalSlice";
+import { orderedListSlice } from "lib/client/store/orderedListSlice";
 
 // import { userApiSlice } from "lib/client/store/userApiSlice";
 
@@ -19,6 +20,7 @@ export const store = configureStore({
 
     cart: cartSlice.reducer,
     orderSheet: orderSheetSlice.reducer,
+    orderedList: orderedListSlice.reducer,
     productManager: productManagerSlice.reducer,
 
     background: backgroundSlice.reducer,

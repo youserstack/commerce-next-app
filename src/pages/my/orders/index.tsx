@@ -1,38 +1,13 @@
 import Orders from "@/components/order/Orders";
-import axios from "axios";
 import styled from "styled-components";
-import useSWR from "swr";
 
 export default function Page() {
-  // fetched from server : swr fetch library
-  const fetcher = (url: any) => axios.get(url).then((res: any) => res.data);
-  const { data, error, isLoading } = useSWR("/api/v2/orders", fetcher);
-
-  if (isLoading) return null;
-
-  console.log({ data });
-
-  const { orders } = data;
-  console.log({ orders });
-
-  if (!orders.length) {
-    return (
-      <Main className="my-orders-page">
-        <section>
-          <div>
-            <h1>No ordered products</h1>
-          </div>
-        </section>
-      </Main>
-    );
-  }
-
   return (
     <Main>
       <section>
         <div className="orders-outer">
           <h1 className="my-orders-title box">Order List</h1>
-          <Orders orders={orders} />
+          <Orders />
         </div>
       </section>
     </Main>
@@ -66,3 +41,25 @@ const Main = styled.main`
     }
   }
 `;
+
+// import { setOrderedList } from "lib/client/store/orderedListSlice";
+// import { getData } from "lib/client/utils/fetchData";
+// import { useEffect, useState } from "react";
+// import { useDispatch } from "react-redux";
+// const orders = useSelector((store: any) => store.orderedList.orders);
+// const dispatch = useDispatch();
+// useEffect(() => {
+//   const fetchData: any = async () => {
+//     if (!auth.accessToken) return;
+//     try {
+//       const response = await getData("v2/orders", null, auth.accessToken);
+//       const { orders } = response.data;
+//       console.log({ response });
+//       dispatch(setOrderedList(orders));
+//     } catch (error) {
+//       console.log({ error });
+//     }
+//   };
+
+//   fetchData();
+// }, [auth.accessToken]);

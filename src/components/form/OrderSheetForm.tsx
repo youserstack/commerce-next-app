@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { addOrder } from "lib/client/store/ordersSlice";
 import { clearCart } from "lib/client/store/cartSlice";
 import { postData } from "lib/client/utils/fetchData";
 import { useSession } from "next-auth/react";

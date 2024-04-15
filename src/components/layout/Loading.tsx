@@ -1,14 +1,13 @@
-import { useSelector } from "react-redux";
 import styled from "styled-components";
+
 export default function Loading() {
-  const loading = useSelector((store: any) => store.loading);
-  if (!loading) return;
   return (
     <Box>
       <div className="spiner"></div>
     </Box>
   );
 }
+
 const Box = styled.div`
   position: fixed;
   top: 0;

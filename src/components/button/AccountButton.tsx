@@ -15,54 +15,53 @@ export default function AccountButton() {
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
 
+  const handleClick = () => {
+    dispatch(setBackground(true));
+    dispatch(setSideMenu("account-menu"));
+  };
+
   return (
-    <Box className="account-icon">
-      <div
-        className="avatar"
-        onClick={() => {
-          dispatch(setBackground(true));
-          dispatch(setSideMenu("account-menu"));
-        }}
-      >
-        {/* 인증하고 이미지 존재시 */}
-        {(session || token) && user && user.image ? (
-          <Image src={user?.image} alt="alt" width={100} height={100} />
-        ) : (
-          <FcGlobe size={30} />
-        )}
-      </div>
+    <Box className="account-button">
+      {/* 미인증시 */}
+      {!(session || token) && (
+        <>
+          <FcGlobe size={30} onClick={handleClick} />
+          <div className="hover-menu">
+            <div className="arrow" />
+            <Link href={"/auth/signin"}>Sign in</Link>
+            <Link href={"/auth/signup"}>Sign up</Link>
+          </div>
+        </>
+      )}
 
       {/* 인증시 */}
       {(session || token) && (
-        <div className="account-icon-hover-menu">
-          <div className="arrow" />
-          <Link href={"/my/account"}>
-            <p>My Account</p>
-          </Link>
-          {user?.role === "user" && (
-            <Link href={"/my/orders"}>
-              <p>Order List</p>
-            </Link>
+        <>
+          {user.image && (
+            <Image src={user?.image} alt="alt" width={100} height={100} onClick={handleClick} />
           )}
-          <div className="partition"></div>
-          <button
-            onClick={() => {
-              signout(dispatch, { session, token });
-              router.push("/");
-            }}
-          >
-            Sign out
-          </button>
-        </div>
-      )}
-
-      {/* 미인증시 */}
-      {!(session || token) && (
-        <div className="account-icon-hover-menu">
-          <div className="arrow" />
-          <Link href={"/auth/signin"}>Sign in</Link>
-          <Link href={"/auth/signup"}>Sign up</Link>
-        </div>
+          {!user.image && <FcGlobe size={30} onClick={handleClick} />}
+          <div className="hover-menu">
+            <div className="arrow" />
+            <Link href={"/my/account"}>
+              <p>My Account</p>
+            </Link>
+            {user?.role === "user" && (
+              <Link href={"/my/orders"}>
+                <p>Order List</p>
+              </Link>
+            )}
+            <div className="partition"></div>
+            <button
+              onClick={() => {
+                signout(dispatch, { session, token });
+                router.push("/");
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+        </>
       )}
     </Box>
   );
@@ -75,23 +74,12 @@ const Box = styled.div`
   position: relative;
   height: 100%;
   padding: 10px;
-  border: 1px solid red;
-  &:hover .account-icon-hover-menu {
+  cursor: pointer;
+  &:hover .hover-menu {
     display: block;
   }
 
-  .avatar {
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-
-    img {
-      width: 30px;
-      height: 30px;
-    }
-  }
-
-  .account-icon-hover-menu {
+  .hover-menu {
     position: absolute;
     top: 100%;
     white-space: nowrap;
@@ -122,7 +110,6 @@ const Box = styled.div`
       padding: 1rem;
       background-color: inherit;
       text-align: start;
-
       &:hover {
         background-color: rgba(0, 0, 0, 0.2);
       }
