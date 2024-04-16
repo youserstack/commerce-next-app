@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<signup>`);
+  console.log(`\n<signup>`);
   // get
   const { name, email, password } = req.body;
   if (!name || !email || !password) return res.status(400).json({ message: "Missing payload" });

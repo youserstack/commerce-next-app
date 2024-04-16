@@ -92,7 +92,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
 
 // export const getProducts = async (req: any, res: any, next: any) => {
 //   // log
-//   console.log(`\x1b[32m\n<getProducts>`);
+//   console.log(`\n<getProducts>`);
 //   console.log({ query: req.query });
 
 //   // create a instance
@@ -117,7 +117,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
 //   res.status(200).json({ products, pages: totalPages });
 // };
 // export const getProductsWithPagination = async (req: any, res: any, next: any) => {
-//   console.log(`\x1b[32m\n<getProducts>`);
+//   console.log(`\n<getProducts>`);
 //   // log
 //   console.log({ query: req.query });
 
@@ -147,13 +147,13 @@ export const getProducts = async (req: any, res: any, next: any) => {
 //   res.status(200).json({ products: paginatedProducts, pages: totalPages });
 // };
 export const deleteProducts = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProducts>\x1b[30m`);
+  console.log(`\n<deleteProducts>\x1b[30m`);
   const { ids } = req.body;
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
 };
 export const deleteProductReviews = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProductReview>\x1b[30m`);
+  console.log(`\n<deleteProductReview>\x1b[30m`);
 
   // get
   const { id: productId } = req.query;

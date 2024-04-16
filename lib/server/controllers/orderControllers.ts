@@ -4,7 +4,7 @@ import User from "lib/server/models/User";
 
 // single
 export const createOrder = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<createOrder>\x1b[30m`);
+  console.log(`\n<createOrder>\x1b[30m`);
 
   try {
     // get the order
@@ -75,7 +75,7 @@ export const createOrder = async (req: any, res: any) => {
 };
 
 export const getOrder = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<getOrder>`);
+  console.log(`\n<getOrder>`);
 
   // 개별주문건은 쿼리파라미터로부터 쿼리를 조회한다.
   const { id } = req.query;
@@ -86,7 +86,7 @@ export const getOrder = async (req: any, res: any) => {
 };
 
 export const deleteOrder = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteOrder>`);
+  console.log(`\n<deleteOrder>`);
   const { id } = req.query;
   const deletedOrder = await Order.findByIdAndDelete(id);
   console.log({ deletedOrder });
@@ -103,7 +103,8 @@ export const getOrders = async (req: any, res: any) => {
 
   const orders = await Order.find({ User: userId }).exec();
   // .populate({ path: "User" });
-  console.log({ orders });
+  console.log({ userId });
+  console.log({ orders: orders.map((order: any) => order._id) });
 
   return res.status(200).json({ orders });
 };

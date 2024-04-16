@@ -10,24 +10,22 @@ import { PageConfig } from "next";
 
 connectDB();
 
-// set
 const router = createRouter()
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products/multipart]:::[${req.method}]`);
+    console.log(`\n[api/v2/products/multipart]:::[${req.method}]`);
     await next();
   })
-  // protected routes
-  // .use(checkAuth, checkRoles(["admin", "user"]))
+  .use(checkAuth, checkRoles(["admin", "user"]))
   // handle the multipart data
   .use(uploadImagesToServer)
   .post(uploadImagesToCloudinary)
   .post(createProduct);
 
-// out
 export const config: PageConfig = {
   api: {
     bodyParser: false,
     externalResolver: true,
   },
 };
+
 export default router.handler();

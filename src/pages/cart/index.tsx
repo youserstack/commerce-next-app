@@ -1,23 +1,12 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reloadCart } from "lib/client/store/cartSlice";
-import { getData } from "lib/client/utils/fetchData";
+import { getData, postData } from "lib/client/utils/fetchData";
 import styled from "styled-components";
 import Cart from "@/components/cart/Cart";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export async function getServerSideProps({ req, res, query }: any) {
-  console.log(`\x1b[32m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
-  const session = await getServerSession(req, res, authOptions);
-  return { props: { session } };
-}
-
-export default function Page({ session }: any) {
-  const { user, accessToken: token } = useSelector((store: any) => store.auth);
+export default function Page() {
   const dispatch = useDispatch();
-  const router = useRouter();
   const cart = useSelector((store: any) => store.cart);
   const [total, setTotal]: any = useState(0);
 
@@ -31,6 +20,8 @@ export default function Page({ session }: any) {
 
     const fetchLatestData = async (products: any) => {
       let latestProducts: any = [];
+
+      // const response = await postData('products')
 
       for (const product of products) {
         try {
@@ -48,7 +39,7 @@ export default function Page({ session }: any) {
         }
       }
 
-      return latestProducts;
+      dispatch(reloadCart({ products: latestProducts }));
     };
 
     // 로컬스토리지에서 리덕스스토어로 데이터를 채운다.
@@ -56,11 +47,8 @@ export default function Page({ session }: any) {
     if (!cart || !cart.products.length) return;
 
     // 최신화된 데이터를 서버에서 가져온다.
-    fetchLatestData(cart.products)
-      // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
-      .then((latestProducts: any) => {
-        dispatch(reloadCart({ products: latestProducts }));
-      });
+    // 그리고 가져온 데이터를 리덕스스토어에 저장한다.
+    fetchLatestData(cart.products);
   }, []);
 
   // 카트목록변경시 전체합계계산

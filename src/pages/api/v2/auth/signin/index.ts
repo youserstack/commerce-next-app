@@ -1,6 +1,7 @@
 import connectDB from "lib/server/config/connectDB";
 import { createRouter } from "next-connect";
 import { signin } from "lib/server/controllers/authControllers";
+
 connectDB();
 const router = createRouter();
 router
@@ -9,4 +10,5 @@ router
     await next();
   })
   .post(signin);
+
 export default router.handler();

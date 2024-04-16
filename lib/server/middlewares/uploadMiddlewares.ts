@@ -3,7 +3,7 @@ import cloudinary, { UploadApiOptions } from "cloudinary";
 
 // upload middleware (server)
 export const uploadImagesToServer = async (req: any, res: any, next: any) => {
-  // console.log("\x1b[32m\n<middleware/uploadImagesToServer>\x1b[30m");
+  // console.log("\n<middleware/uploadImagesToServer>\x1b[30m");
 
   // set the storage
   const storage = multer.diskStorage({
@@ -31,7 +31,7 @@ export const uploadImagesToServer = async (req: any, res: any, next: any) => {
 
 // upload middleware (cloudinary)
 export const uploadImagesToCloudinary = async (req: any, res: any, next: any) => {
-  // console.log("\x1b[32m\n<middleware/uploadImagesToCloudinary>\x1b[30m");
+  // console.log("\n<middleware/uploadImagesToCloudinary>\x1b[30m");
 
   // get
   const { files } = req;
@@ -75,7 +75,7 @@ export const uploadImagesToCloudinary = async (req: any, res: any, next: any) =>
 
 // upload middleware (cloudinary)
 export const uploadReviewImagesToCloudinary = async (req: any, res: any, next: any) => {
-  console.log("\x1b[32m\n<middleware/uploadReviewImagesToCloudinary>");
+  console.log("\n<middleware/uploadReviewImagesToCloudinary>");
 
   // get
   const { files } = req;
