@@ -19,7 +19,6 @@ export const signup = async (req: any, res: any) => {
 };
 
 export const signin = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<signin>`);
   // get
   const { email, password } = req.body;
   if (!email || !password) {
@@ -102,8 +101,10 @@ export const refresh = async (req: any, res: any) => {
 
   // log
   console.log({
-    user: savedUser,
+    // user: savedUser,
     // user: user,
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
     // accessToken: newAccessToken.slice(-5),
     // refreshToken: newRefreshToken.slice(-5),
   });

@@ -37,10 +37,10 @@ export default function AccountButton() {
       {/* 인증시 */}
       {(session || token) && (
         <>
-          {user.image && (
-            <Image src={user?.image} alt="alt" width={100} height={100} onClick={handleClick} />
+          {user?.image && (
+            <Image src={user.image} alt="alt" width={100} height={100} onClick={handleClick} />
           )}
-          {!user.image && <FcGlobe size={30} onClick={handleClick} />}
+          {!user?.image && <FcGlobe size={30} onClick={handleClick} />}
           <div className="hover-menu">
             <div className="arrow" />
             <Link href={"/my/account"}>

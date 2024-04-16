@@ -35,18 +35,19 @@ export default function Layout({ children }: any) {
   // auth
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
+  // 세션변경시 리덕스스토어에 세션정보를 저장
   useEffect(() => {
     if (!session || token) return;
     const { user } = session;
     const credentials = { user };
     dispatch(setCredentials(credentials));
   }, [session, dispatch]);
-  // if no token, refresh the token (general)
+  // 토큰변경시 토큰갱신을 요청
+  // (초기로드시 스토어에 토큰이 없기 때문에, 쿠키에 담긴 리프레시 토큰을 가지고 갱신요청)
   useEffect(() => {
     if (session || token) return;
-    console.log({ token });
-    if (!token) refreshAuth(dispatch);
-  }, [token, dispatch]);
+    if (!token) refreshAuth(dispatch); // 초기로드시 토큰이 없는 경우에만 실행
+  }, [dispatch]);
 
   // cart
   const cart = useSelector((store: any) => store.cart);

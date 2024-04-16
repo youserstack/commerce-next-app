@@ -95,7 +95,7 @@ export const deleteOrder = async (req: any, res: any) => {
 
 // multiple
 export const getOrders = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<getOrders>`);
+  console.log(`\n<getOrders>`);
 
   // 전체주문건은 사용자아이디로부터 쿼리를 조회한다.
   // (모든 주문을 조회하기 위한 유일한 식별자가 사용자아이디이기 때문에)

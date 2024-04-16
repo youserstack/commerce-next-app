@@ -1,22 +1,18 @@
-import { getSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
 import jwt from "jsonwebtoken";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const checkAuth = async (req: any, res: any, next: any) => {
-  // console.log("\x1b[32m\n<middleware/checkAuth>\x1b[30m");
+  // console.log("\n<middleware/checkAuth>");
 
-  // get the session (auth method 1)
+  // 세션확인
   const session = await getServerSession(req, res, authOptions);
-  // const token = await getToken({ req });
   if (session) {
-    // console.log({ session });
     req.user = session.user;
     return await next();
   }
 
-  // get the accessToken (auth method 2)
+  // 토큰확인
   const authorization = req.headers.authorization || req.headers.Authorization;
   const accessToken = authorization?.split(" ")[1];
   console.log({ authorization });
@@ -48,13 +44,14 @@ export const checkAuth = async (req: any, res: any, next: any) => {
 
 export const checkRoles = (roles: any) => {
   return async (req: any, res: any, next: any) => {
-    // console.log("\x1b[32m\n<middleware/checkRoles>\x1b[30m");
+    // console.log("\n<middleware/checkRoles>");
     // console.log({ "req.user.role": req.user.role });
     // console.log({ "req.user": req.user });
 
     if (!roles.includes(req.user.role)) {
       throw new Error(`Role (${req.user.role}) is not allowed to access this resource.`);
     }
+
     await next();
   };
 };

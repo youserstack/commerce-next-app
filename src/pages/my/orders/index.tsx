@@ -41,25 +41,3 @@ const Main = styled.main`
     }
   }
 `;
-
-// import { setOrderedList } from "lib/client/store/orderedListSlice";
-// import { getData } from "lib/client/utils/fetchData";
-// import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// const orders = useSelector((store: any) => store.orderedList.orders);
-// const dispatch = useDispatch();
-// useEffect(() => {
-//   const fetchData: any = async () => {
-//     if (!auth.accessToken) return;
-//     try {
-//       const response = await getData("v2/orders", null, auth.accessToken);
-//       const { orders } = response.data;
-//       console.log({ response });
-//       dispatch(setOrderedList(orders));
-//     } catch (error) {
-//       console.log({ error });
-//     }
-//   };
-
-//   fetchData();
-// }, [auth.accessToken]);

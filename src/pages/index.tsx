@@ -7,10 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { slideImages } from "../data/slide-images";
-import colors from "colors";
 
 export async function getStaticProps({ req }: any) {
-  console.log(colors.green("[/] 홈페이지 정적 생성중..."));
+  console.log("\n[/] 홈페이지 정적 생성중...");
 
   await connectDB();
   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();
@@ -24,6 +23,7 @@ export async function getStaticProps({ req }: any) {
 }
 
 export default function Home({ products }: any) {
+  console.log("test1");
   const { randomProducts, recentProducts } = products;
   const [deviceEnv, setDeviceEnv] = useState("web");
 
@@ -39,6 +39,7 @@ export default function Home({ products }: any) {
   }));
 
   useEffect(() => {
+    console.log("test2");
     const handleResize = () => {
       if (window.innerWidth <= 500) {
         setDeviceEnv("mobile");
