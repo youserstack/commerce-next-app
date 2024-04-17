@@ -1,3 +1,4 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -10,8 +11,8 @@ export async function middleware(request: NextRequest) {
 
   if (isProtectedRoutes) {
     const refreshToken = request.cookies.get("refreshToken")?.value;
-    const nextauthToken = request.cookies.get("next-auth.session-token")?.value;
-    // console.log({ refreshToken, nextauthToken });
+    const nextauthToken = await getToken({ req: request });
+    // console.log({ nextauthToken });
 
     if (!(refreshToken || nextauthToken)) {
       // console.log("redirecting...");

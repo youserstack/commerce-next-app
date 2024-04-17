@@ -23,7 +23,6 @@ export async function getStaticProps({ req }: any) {
 }
 
 export default function Home({ products }: any) {
-  console.log("test1");
   const { randomProducts, recentProducts } = products;
   const [deviceEnv, setDeviceEnv] = useState("web");
 
@@ -39,7 +38,6 @@ export default function Home({ products }: any) {
   }));
 
   useEffect(() => {
-    console.log("test2");
     const handleResize = () => {
       if (window.innerWidth <= 500) {
         setDeviceEnv("mobile");
