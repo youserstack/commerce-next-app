@@ -1,13 +1,14 @@
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { FcGlobe } from "react-icons/fc";
-import { signout } from "lib/client/utils/authUtils";
 import { useRouter } from "next/router";
+import { getData } from "lib/client/utils/fetchData";
+import { resetCredentials, setCredentials } from "lib/client/store/authSlice";
 
 export default function AccountButton() {
   const dispatch = useDispatch();
@@ -53,9 +54,16 @@ export default function AccountButton() {
             )}
             <div className="partition"></div>
             <button
-              onClick={() => {
-                signout(dispatch, { session, token });
-                router.push("/");
+              onClick={async () => {
+                // dispatch(setCredentials(null));
+                dispatch(resetCredentials());
+                if (session) {
+                  await signOut({ callbackUrl: "/" });
+                }
+                if (token) {
+                  await getData("v3/auth/signout");
+                  router.push("/");
+                }
               }}
             >
               Sign out

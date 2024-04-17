@@ -33,8 +33,8 @@ export default function SigninForm() {
       return;
     }
     dispatch(setCredentials({ user, accessToken }));
+    router.push("/my/ordered-list");
     dispatch(setLoading(false));
-    router.push("/my/account");
   };
 
   const signinWithCredentials = async (data: any) => {
@@ -43,7 +43,7 @@ export default function SigninForm() {
     const response: any = await signIn("credentials", {
       email,
       password,
-      callbackUrl: "/my/account",
+      callbackUrl: "/my/ordered-list",
     });
     // console.log({response})
     dispatch(setLoading(false));
@@ -54,10 +54,10 @@ export default function SigninForm() {
     dispatch(setLoading(true));
     switch (method) {
       case "naver":
-        await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
+        await signIn("naver", { redirect: true, callbackUrl: "/my/ordered-list" });
         break;
       case "kakao":
-        await signIn("kakao", { redirect: true, callbackUrl: "/my/account" });
+        await signIn("kakao", { redirect: true, callbackUrl: "/my/ordered-list" });
         break;
 
       default:

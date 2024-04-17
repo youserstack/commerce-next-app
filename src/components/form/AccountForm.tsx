@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -11,11 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function AccountForm() {
+  const dispatch: any = useDispatch();
   const { data: session, update } = useSession();
   const auth = useSelector((store: any) => store.auth);
-  const dispatch: any = useDispatch();
-
-  const router = useRouter();
   const [newImage, setNewImage]: any = useState("");
   const [isEditMode, setIsEditMode]: any = useState(false);
 
