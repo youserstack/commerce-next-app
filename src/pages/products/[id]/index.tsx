@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import { getData } from "lib/client/utils/fetchData";
 import ProductDetail from "@/components/product/detail/ProductDetail";
 import Product from "lib/server/models/Product";
 import connectDB from "lib/server/config/connectDB";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
-import colors from "colors";
 
 export async function getStaticPaths() {
-  console.log(colors.green("[pages/products/[id]] 정적 경로 수집중..."));
+  console.log("[pages/products/[id]] 정적 경로 수집중...");
   await connectDB();
 
   const products = await Product.find({}).select("_id").exec();
@@ -25,7 +23,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: any) {
   await connectDB();
   const { id } = context.params;
-  console.log(colors.green(`[pages/products/${id}] 정적 프로퍼티 생성중...`));
+  console.log(`[pages/products/${id}] 정적 프로퍼티 생성중...`);
 
   const product = await Product.findById(id);
 

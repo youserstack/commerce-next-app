@@ -7,7 +7,7 @@ import verifyJWT from "lib/server/utils/verifyJWT";
 connectDB();
 
 export default async function handler(req: any, res: any) {
-  console.log("\x1b[32m\n[api/pay]:::[", req.method, "]");
+  console.log("\n[api/pay]:::[", req.method, "]");
   switch (req.method) {
     case "POST":
       await payForOrder(req, res);

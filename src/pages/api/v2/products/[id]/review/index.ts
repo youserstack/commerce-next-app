@@ -10,12 +10,12 @@ connectDB();
 
 const router = createRouter()
   .use(async (req: any, res: any, next: any) => {
-    console.log(`\x1b[33m\n[api/v2/products/${req.query.id}/review]:::[${req.method}]`);
+    console.log(`\n[api/v2/products/${req.query.id}/review]:::[${req.method}]`);
     await next();
   })
-  .post(checkAuth, checkRoles(["user"]))
+  .use(checkAuth, checkRoles(["user"]))
   .post(createProductReview)
-  .delete(checkAuth, checkRoles(["admin"]))
+  .use(checkAuth, checkRoles(["admin"]))
   .delete(deleteProductReviews);
 
 export default router.handler();

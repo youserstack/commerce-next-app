@@ -7,7 +7,7 @@ connectDB();
 const router = createRouter();
 router
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/orders]:::[${req.method}]`);
+    console.log(`\n[api/v2/orders]:::[${req.method}]`);
     await next();
   })
   .use(checkAuth, checkRoles(["user"]))

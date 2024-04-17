@@ -6,7 +6,7 @@ connectDB();
 
 const router = createRouter()
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/auth/refresh]\x1b[32m`);
+    console.log(`\n[api/v2/auth/refresh]`);
     await next();
   })
   .get(refresh);

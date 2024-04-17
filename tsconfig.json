@@ -19,13 +19,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/styles/*.ts"
-
-    // "src/pages/api/auth/index.ts" // "lib/server/config/connectDB.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/styles/*.ts"],
   "exclude": ["node_modules"]
 }

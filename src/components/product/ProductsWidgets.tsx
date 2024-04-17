@@ -1,5 +1,4 @@
 import Filters from "@/components/product/Filters";
-import Filters2 from "@/components/product/Filters2";
 import ProductManager from "@/components/product/ProductManager";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { useEffect, useRef, useState } from "react";
@@ -7,10 +6,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 export default function ProductsWidgets({ products }: any) {
-  // external
   const dispatch = useDispatch();
-
-  // internal
   const [widget, setWidget] = useState("");
   const productWidgetsRef: any = useRef(null);
 
@@ -35,7 +31,7 @@ export default function ProductsWidgets({ products }: any) {
   return (
     <Box>
       <div className="product-widgets WEB">
-        <Filters2 />
+        <Filters />
         <ProductManager products={products} />
       </div>
 
@@ -46,7 +42,7 @@ export default function ProductsWidgets({ products }: any) {
           ref={productWidgetsRef}
         >
           {widget === "filter" ? (
-            <Filters2 />
+            <Filters />
           ) : widget === "manager" ? (
             <ProductManager products={products} />
           ) : null}

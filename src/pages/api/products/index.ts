@@ -5,7 +5,7 @@ import verifyJWT from "lib/server/utils/verifyJWT";
 connectDB();
 
 export default async function handler(req: any, res: any) {
-  console.log(`\x1b[32m\n[api/product]`);
+  console.log(`\n[api/products]`);
   switch (req.method) {
     case "GET":
       await getProducts(req, res);
@@ -18,21 +18,13 @@ export default async function handler(req: any, res: any) {
       break;
   }
 }
+
 const getProducts = async (req: any, res: any) => {
   try {
-    // get
-    // console.log("req.query : ", req.query);
     // const instance = new APIfeatures(Product.find(), req.query).filtering().sorting().paginating();
     // const data = await instance.products;
     const products: any = await Product.find().exec();
     if (!products) return res.status(404).json({ message: "Not found" });
-    // console.log({ products });
-    console.log(
-      products.map((product: any) => ({
-        _id: product._id,
-        name: product.name,
-      }))
-    );
     return res.status(200).json({ products: products });
     // if (req.query) {
     //   const { productPage, productCount, sort } = req.query;

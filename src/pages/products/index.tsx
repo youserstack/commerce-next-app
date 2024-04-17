@@ -3,25 +3,21 @@ import Products from "@/components/product/Products";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import connectDB from "lib/server/config/connectDB";
-import Product from "lib/server/models/Product";
 import ProductsWidgets from "@/components/product/ProductsWidgets";
-import { getData } from "lib/client/utils/fetchData";
 import { useDispatch } from "react-redux";
-import { setLoading } from "lib/client/store/loadingSlice";
 import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
 import Loading from "@/components/layout/Loading";
 
 export default function Page() {
-  const dispatch = useDispatch();
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
-  // swr 이용해서 패칭
-  const fetcher = async (url: any) =>
-    await axios.get(url, { params: router.query }).then((res: any) => res.data);
-  const { data, error, isLoading } = useSWR("/api/v2/products", fetcher);
+  const fetcher = async (url: any) => {
+    const response = await axios.get(url, { params: router.query });
+    return response.data;
+  };
+  const { data, isLoading } = useSWR("/api/v2/products", fetcher);
   const { mutate } = useSWRConfig();
 
   // 쿼리변경시 리패칭(refetching)
@@ -34,12 +30,6 @@ export default function Page() {
     setPage(Number(router.query.page) || 1);
   }, [router.query.page]);
 
-  // 로딩시
-  useEffect(() => {
-    if (isLoading) dispatch(setLoading(true));
-    else dispatch(setLoading(false));
-  }, [isLoading]);
-
   const handlePaginate = (page: any) => {
     setPage(page);
     router.query.page = page;
@@ -47,7 +37,15 @@ export default function Page() {
     mutate("/api/v2/products");
   };
 
-  if (isLoading) return <Main className="products-page"></Main>;
+  if (isLoading) {
+    return (
+      <Main className="products-page">
+        <section>
+          <Loading />
+        </section>
+      </Main>
+    );
+  }
 
   const { products, pageCount } = data;
 

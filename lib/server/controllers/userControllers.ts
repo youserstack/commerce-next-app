@@ -1,7 +1,7 @@
 import User from "lib/server/models/User";
 
 export const updateUser = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<updateUser>\x1b[30m`);
+  console.log(`\n<updateUser>\x1b[30m`);
   // console.log({ "req.body": req.body });
 
   // get

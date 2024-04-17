@@ -12,10 +12,9 @@ connectDB();
 
 const router = createRouter()
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products/${req.query.id}/review/multipart]:::[${req.method}]`);
+    console.log(`\n[api/v2/products/${req.query.id}/review/multipart]:::[${req.method}]`);
     await next();
   })
-  // protected routes
   .use(checkAuth, checkRoles(["admin", "user"]))
   // handle the multipart data
   .use(uploadImagesToServer)

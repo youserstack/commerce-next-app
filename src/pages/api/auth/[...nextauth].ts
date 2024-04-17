@@ -9,9 +9,6 @@ import connectDB from "lib/server/config/connectDB";
 import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
 
-// import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-// import clientPromise from "../../../../lib/server/config/mongodb";
-
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -21,7 +18,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         await connectDB();
 
-        console.log("\x1b[34m\n<api/auth/[...nextauth]/authorize>\x1b[30m");
+        console.log("\n[...nextauth]/authorize");
+
         // if (!credentials) throw new Error("No credentials");
 
         // get
@@ -33,12 +31,12 @@ export const authOptions: NextAuthOptions = {
           .select("-refreshToken -createdAt -updatedAt -__v")
           .exec();
         if (!user) throw new Error("Invalid Email");
-        console.log({ user });
+        // console.log({ user });
 
         // compare
         const salt = 10; // 이동이 필요(서버 회원가입 핸들러에서 처리)
         const hashedPassword = await bcrypt.hash(user.password, salt); // 이동이 필요(서버 회원가입 핸들러에서 처리)
-        console.log({ hashedPassword });
+        // console.log({ hashedPassword });
         const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
         if (!isPasswordMatched) throw new Error("Invalid Password");
 
@@ -55,20 +53,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    // authorize(인가) 후에 서버에서 유저와 계정 정보를 로깅하자.
+    // credentials을 통해서 로그인시, providers authorize(인가)를 실행후, signIn을 실행한다.
     signIn({ user, account, profile }) {
-      console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
-      console.log({ user, account });
-
+      console.log("\n[...nextauth]/signIn", { user, account });
       // if (account?.provider === "naver") return true;
       return true;
     },
 
     // client token (jwt)
     async jwt({ token, user, account, trigger, session }: any) {
-      // console.log("\x1b[34m\n<api/auth/[...nextauth]/jwt>\x1b[30m");
+      // console.log("\n[...nextauth]/jwt");
 
-      // client token 에 사용자 데이터를 저장한다.
+      // 토큰에 유저데이터를 저장한다.
       // user : returned by authorize function
       // account : returned by oauth provider?
       if (user) token.user = user; // credentials
@@ -88,14 +84,13 @@ export const authOptions: NextAuthOptions = {
 
     // server session
     async session({ session, token }: any) {
-      // console.log("\x1b[34m\n<api/auth/[...nextauth]/session>\x1b[30m");
-
       // server session 에 user token 을 저장한다.
       // token : returned by jwt function
       if (token.user) session.user = token.user; // credentials
       if (token.account) session.account = token.account; // oauth
 
-      console.log({ session });
+      // console.log("\n[...nextauth]/session", { session });
+
       return session;
     },
   },

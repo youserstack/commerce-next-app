@@ -1,17 +1,16 @@
 import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
-import colors from "colors";
 
 // single
 export const createProduct = async (req: any, res: any, next: any) => {
-  console.log(colors.green("<createProduct>"));
+  console.log("<createProduct>");
   console.log(req.body);
 
   const product = await Product.create(req.body);
   res.status(200).json({ product });
 };
 export const createProductReview = async (req: any, res: any) => {
-  console.log(colors.green("<createProductReview>"));
+  console.log("<createProductReview>");
 
   const { id } = req.query;
   const review = req.body;
@@ -35,7 +34,7 @@ export const createProductReview = async (req: any, res: any) => {
   return res.status(200).json({ product });
 };
 export const getProduct = async (req: any, res: any, next: any) => {
-  console.log(colors.green("<getProduct>"));
+  console.log("<getProduct>");
 
   const product = await Product.findById(req.query.id);
   if (!product) res.status(404).json({ message: "Not found" });
@@ -43,7 +42,7 @@ export const getProduct = async (req: any, res: any, next: any) => {
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {
-  console.log(colors.green("<deleteProduct>"));
+  console.log("<deleteProduct>");
 
   const { id } = req.query;
   const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
@@ -54,7 +53,7 @@ export const deleteProduct = async (req: any, res: any) => {
 
 // multiple
 export const getProducts = async (req: any, res: any, next: any) => {
-  console.log(colors.green("<getProducts>"));
+  console.log("<getProducts>");
   console.log({ query: req.query });
 
   // set
@@ -93,7 +92,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
 
 // export const getProducts = async (req: any, res: any, next: any) => {
 //   // log
-//   console.log(`\x1b[32m\n<getProducts>`);
+//   console.log(`\n<getProducts>`);
 //   console.log({ query: req.query });
 
 //   // create a instance
@@ -118,7 +117,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
 //   res.status(200).json({ products, pages: totalPages });
 // };
 // export const getProductsWithPagination = async (req: any, res: any, next: any) => {
-//   console.log(`\x1b[32m\n<getProducts>`);
+//   console.log(`\n<getProducts>`);
 //   // log
 //   console.log({ query: req.query });
 
@@ -148,13 +147,13 @@ export const getProducts = async (req: any, res: any, next: any) => {
 //   res.status(200).json({ products: paginatedProducts, pages: totalPages });
 // };
 export const deleteProducts = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProducts>\x1b[30m`);
+  console.log(`\n<deleteProducts>\x1b[30m`);
   const { ids } = req.body;
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
 };
 export const deleteProductReviews = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProductReview>\x1b[30m`);
+  console.log(`\n<deleteProductReview>\x1b[30m`);
 
   // get
   const { id: productId } = req.query;
