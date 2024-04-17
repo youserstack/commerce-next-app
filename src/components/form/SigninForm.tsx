@@ -38,6 +38,7 @@ export default function SigninForm() {
     await signIn("credentials", {
       email,
       password,
+      redirect: true,
       callbackUrl: "/my/orders",
     });
     // console.log({response})
