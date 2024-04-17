@@ -58,6 +58,7 @@ export default function AccountButton() {
                 if (session) await signOut({ redirect: false });
                 if (token) await getData("v3/auth/signout");
                 dispatch(unsetCredentials());
+                document.cookie = `refreshToken=;Max-Age=0;Path=/`;
                 router.push("/");
               }}
             >
