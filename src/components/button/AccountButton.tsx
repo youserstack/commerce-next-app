@@ -55,15 +55,14 @@ export default function AccountButton() {
             <div className="partition"></div>
             <button
               onClick={async () => {
-                // dispatch(setCredentials(null));
-                dispatch(resetCredentials());
                 if (session) {
                   await signOut({ callbackUrl: "/" });
                 }
                 if (token) {
                   await getData("v3/auth/signout");
-                  router.push("/");
                 }
+                dispatch(resetCredentials());
+                router.push("/");
               }}
             >
               Sign out
