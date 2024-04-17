@@ -55,12 +55,8 @@ export default function AccountButton() {
             <div className="partition"></div>
             <button
               onClick={async () => {
-                if (session) {
-                  await signOut({ callbackUrl: "/" });
-                }
-                if (token) {
-                  await getData("v3/auth/signout");
-                }
+                if (session) await signOut({ redirect: false });
+                if (token) await getData("v3/auth/signout");
                 dispatch(resetCredentials());
                 router.push("/");
               }}
