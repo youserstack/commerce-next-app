@@ -8,7 +8,7 @@ import { styled } from "styled-components";
 import { FcGlobe } from "react-icons/fc";
 import { useRouter } from "next/router";
 import { getData } from "lib/client/utils/fetchData";
-import { resetCredentials, setCredentials } from "lib/client/store/authSlice";
+import { unsetCredentials, setCredentials } from "lib/client/store/authSlice";
 
 export default function AccountButton() {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ export default function AccountButton() {
               onClick={async () => {
                 if (session) await signOut({ redirect: false });
                 if (token) await getData("v3/auth/signout");
-                dispatch(resetCredentials());
+                dispatch(unsetCredentials());
                 router.push("/");
               }}
             >

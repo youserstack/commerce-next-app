@@ -43,7 +43,7 @@ export default function Layout({ children }: any) {
     dispatch(setCredentials(credentials));
   }, [session, dispatch]);
   // 토큰변경시 토큰갱신을 요청
-  // (초기로드시 스토어에 토큰이 없기 때문에, 쿠키에 담긴 리프레시 토큰을 가지고 갱신요청)
+  // (초기로드시 스토어에 액세스토큰이 없기 때문에, 쿠키에 담긴 리프레시 토큰을 가지고 갱신요청)
   useEffect(() => {
     if (session || token) return;
     if (!token) refreshAuth(dispatch); // 초기로드시 토큰이 없는 경우에만 실행

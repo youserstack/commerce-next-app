@@ -23,15 +23,15 @@ export default function SigninForm() {
 
   useEffect(() => setFocus("email"), [setFocus]);
 
-  const signin = async (data: any) => {
+  const signinWithCustom = async (data: any) => {
     dispatch(setLoading(true));
     const response = await postData("v2/auth/signin", data);
     const { user, accessToken } = response.data;
-    if (!accessToken) {
-      console.error("No accessToken");
-      dispatch(setLoading(false));
-      return;
-    }
+    // if (!accessToken) {
+    //   console.error("No accessToken");
+    //   dispatch(setLoading(false));
+    //   return;
+    // }
     dispatch(setCredentials({ user, accessToken }));
     router.push("/my/orders");
     dispatch(setLoading(false));
@@ -40,7 +40,7 @@ export default function SigninForm() {
   const signinWithCredentials = async (data: any) => {
     dispatch(setLoading(true));
     const { email, password } = data;
-    const response: any = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       callbackUrl: "/my/orders",
@@ -80,7 +80,7 @@ export default function SigninForm() {
           placeholder="password"
         />
 
-        <button className="signin" onClick={handleSubmit(signin)}>
+        <button className="signin" onClick={handleSubmit(signinWithCustom)}>
           Sign in
         </button>
 
