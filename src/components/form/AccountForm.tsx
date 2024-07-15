@@ -18,8 +18,6 @@ export default function AccountForm() {
   const [isEditMode, setIsEditMode]: any = useState(false);
 
   const { register, handleSubmit, watch, setValue } = useForm();
-  const registeredImageProperties = register("image");
-  // const registeredRoleProperties = register("role", { value: "" });
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
@@ -103,13 +101,10 @@ export default function AccountForm() {
             <input
               type="file"
               accept="image/*"
-              name={registeredImageProperties.name}
+              name={register("image").name}
               onChange={(e: any) => {
-                // registeredImageProperties.onChange(e);
-                // console.log({ some: e.target.value, some2: e.target.files });
-                const newImage = e.target.files[0];
-                setValue("image", newImage);
-                setNewImage(newImage);
+                setValue("image", e.target.files[0]);
+                setNewImage(e.target.files[0]);
                 setIsEditMode(true);
               }}
             />
@@ -131,12 +126,6 @@ export default function AccountForm() {
             <li>
               <strong>Permission</strong>
               <input type="text" value={auth.user.role} disabled />
-              {/* <div className="role-option">
-                <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
-                <label htmlFor="admin">Admin</label>
-                <input {...registeredRoleProperties} type="radio" value="user" id="user" />
-                <label htmlFor="user">User</label>
-              </div> */}
             </li>
           </ul>
         ) : (
@@ -204,10 +193,6 @@ const Box = styled.form`
   border-radius: 10px;
   background-color: #333;
 
-  > * {
-    /* border: 3px solid coral; */
-  }
-
   .avatar-outer {
     grid-area: area1;
     display: flex;
@@ -262,7 +247,6 @@ const Box = styled.form`
     ul {
       display: flex;
       flex-direction: column;
-      /* gap: 0.5rem; */
 
       li {
         width: 18rem;
@@ -271,7 +255,6 @@ const Box = styled.form`
         align-items: center;
         gap: 1rem;
         padding: 0.5rem;
-        /* border: 1px solid; */
 
         > * {
           padding: 0;
