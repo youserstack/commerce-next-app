@@ -2,10 +2,10 @@ import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import verifyJWT from "lib/server/utils/verifyJWT";
 
-connectDB();
-
 export default async function handler(req: any, res: any) {
   console.log(`\n[api/products]`);
+  connectDB();
+
   switch (req.method) {
     case "GET":
       await getProducts(req, res);
@@ -26,6 +26,7 @@ const getProducts = async (req: any, res: any) => {
     const products: any = await Product.find().exec();
     if (!products) return res.status(404).json({ message: "Not found" });
     return res.status(200).json({ products: products });
+
     // if (req.query) {
     //   const { productPage, productCount, sort } = req.query;
     //   const page = Number(productPage) || 1;
@@ -54,6 +55,7 @@ const createProduct = async (req: any, res: any) => {
     // verify
     const verified: any = await verifyJWT(req, res);
     if (verified.role !== "admin") return res.status(403).json({ message: "Forbidden" });
+
     // create
     const { name, price, description, category, images, seller, stock } = req.body;
     if (
@@ -75,8 +77,8 @@ const createProduct = async (req: any, res: any) => {
       seller,
       stock,
     });
-    // out
     console.log("newProduct : ", newProduct);
+
     return res.status(200).json({ newProduct });
   } catch (error) {
     return res.status(500).json({ error });
@@ -93,12 +95,13 @@ const deleteProducts = async (req: any, res: any) => {
       console.log("deletedProduct : ", deletedProduct);
       deletedProducts.push(deletedProduct);
     }
-    // out
+
     return res.status(200).json({ deletedProducts });
   } catch (error) {
     console.log("deleteProducts error : ", error);
   }
 };
+
 class APIfeatures {
   products: any;
   queryString: any;

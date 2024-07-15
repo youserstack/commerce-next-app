@@ -13,13 +13,7 @@ import Image from "next/image";
 export default function SigninForm() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setFocus,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, setFocus } = useForm();
 
   useEffect(() => setFocus("email"), [setFocus]);
 
@@ -41,7 +35,6 @@ export default function SigninForm() {
       redirect: true,
       callbackUrl: "/my/orders",
     });
-    // console.log({response})
     dispatch(setLoading(false));
   };
 
@@ -105,13 +98,11 @@ const Box = styled.div`
   width: 50%;
   max-width: 500px;
   min-width: 300px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   border: 1px solid green;
   border-radius: 10px;
   padding: 3rem 1rem;
@@ -125,7 +116,6 @@ const Box = styled.div`
     justify-content: center;
     align-items: center;
     gap: 12px;
-
     background-color: inherit;
     color: #fff;
     &:hover {

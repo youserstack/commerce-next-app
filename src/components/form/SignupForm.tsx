@@ -18,20 +18,16 @@ export default function SignupForm() {
     watch,
     setFocus,
     formState: { errors },
-    reset,
   } = useForm();
   const password = useRef();
   password.current = watch("password");
 
   const handleSignup = async (data: any) => {
-    console.log({ data });
-
     try {
       dispatch(setLoading(true));
       const response: any = await postData("v2/auth/signup", data);
       logResponse(response);
       dispatch(setLoading(false));
-      // reset();
       setFocus("name");
       router.push("/auth/signin");
     } catch (error: any) {
@@ -51,14 +47,8 @@ export default function SignupForm() {
       <div className="name">
         <input
           {...register("name", {
-            required: {
-              value: true,
-              message: "This field is required.",
-            },
-            maxLength: {
-              value: 20,
-              message: "Password should not be longer than 20 characters.",
-            },
+            required: { value: true, message: "This field is required." },
+            maxLength: { value: 20, message: "Password should not be longer than 20 characters." },
           })}
           className="input"
           type="text"
@@ -69,12 +59,7 @@ export default function SignupForm() {
 
       <div className="email">
         <input
-          {...register("email", {
-            required: {
-              value: true,
-              message: "This field is required.",
-            },
-          })}
+          {...register("email", { required: { value: true, message: "This field is required." } })}
           className="input"
           type="email"
           placeholder="Email"
@@ -86,18 +71,12 @@ export default function SignupForm() {
       <div className="password">
         <input
           {...register("password", {
-            required: {
-              value: true,
-              message: "This field is required.",
-            },
+            required: { value: true, message: "This field is required." },
             minLength: {
               value: 4,
               message: "Password should have a length of at least 4 characters.",
             },
-            maxLength: {
-              value: 20,
-              message: "Password should not be longer than 20 characters.",
-            },
+            maxLength: { value: 20, message: "Password should not be longer than 20 characters." },
           })}
           className="input"
           type="password"
@@ -109,13 +88,8 @@ export default function SignupForm() {
       <div className="passwordConfirm">
         <input
           {...register("passwordConfirm", {
-            required: {
-              value: true,
-              message: "This field is required.",
-            },
-            validate: (passwordConfirm) => {
-              return passwordConfirm === password.current;
-            },
+            required: { value: true, message: "This field is required." },
+            validate: (passwordConfirm) => passwordConfirm === password.current,
           })}
           className="input"
           type="password"
@@ -135,13 +109,11 @@ const Box = styled.div`
   width: 50%;
   max-width: 500px;
   min-width: 300px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   border: 1px solid green;
   border-radius: 10px;
   padding: 3rem 1rem;
@@ -163,8 +135,6 @@ const Box = styled.div`
     padding: 8px;
     outline: none;
     border: 3px solid royalblue;
-    /* border: 3px solid steelblue; */
-    /* border: 3px solid dodgerblue; */
     border-radius: 5px;
     :hover,
     :focus {
@@ -177,7 +147,6 @@ const Box = styled.div`
   }
 
   .signup-button {
-    /* all: unset; */
     background-color: #2196f3;
     border-radius: 5px;
     padding: 10px;

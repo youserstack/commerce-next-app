@@ -1,13 +1,11 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-
 import connectDB from "lib/server/config/connectDB";
 import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
+import NextAuth, { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -52,6 +50,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
     }),
   ],
+
   callbacks: {
     // credentials을 통해서 로그인시, providers authorize(인가)를 실행후, signIn을 실행한다.
     signIn({ user, account, profile }) {
@@ -94,12 +93,9 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  pages: {
-    signIn: "/auth/signin",
-  },
-  session: {
-    strategy: "jwt",
-  },
+
+  pages: { signIn: "/auth/signin" },
+  session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
