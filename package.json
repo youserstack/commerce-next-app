@@ -10,7 +10,6 @@
     "update": "git add . && git commit -m 'update' && git push"
   },
   "dependencies": {
-    "@next/font": "13.4.12",
     "@paypal/react-paypal-js": "^8.1.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/jsonwebtoken": "^9.0.2",

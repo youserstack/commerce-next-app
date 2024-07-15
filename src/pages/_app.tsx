@@ -1,9 +1,9 @@
-import type { AppProps } from "next/app";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { store } from "lib/client/store/store";
 import Layout from "@/components/layout/Layout";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

@@ -1,14 +1,13 @@
-import Image from "next/image";
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setModal } from "lib/client/store/modalSlice";
-import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { setModal } from "lib/client/store/modalSlice";
+import { useRef } from "react";
+import styled from "styled-components";
 import Slider from "react-slick";
-// Import css files
+import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRouter } from "next/router";
 
 interface Props {
   items?: any[];
@@ -30,53 +29,6 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
     if (actionType === "VIEW") dispatch(setModal({ type: "VIEW", data: imageUrl }));
   };
 
-  // if (multipleItemNumber) {
-  //   return (
-  //     <Box>
-  //       <Slider
-  //         ref={sliderRef}
-  //         arrows={false}
-  //         speed={1000}
-  //         infinite={true}
-  //         // dots={dots}
-  //         slidesToShow={multipleItemNumber}
-  //         slidesToScroll={multipleItemNumber}
-  //         {...settings}
-  //       >
-  //         {items?.map((item: any) => (
-  //           <div className="img-outer" key={item.id}>
-  //             <Image
-  //               src={item.url}
-  //               alt="alt"
-  //               width={300}
-  //               height={300}
-  //               onClick={(e) => handleClickImage(item.url)}
-  //             />
-  //             {item.text && (
-  //               <div className="text">
-  //                 <h1>{item.text}</h1>
-  //               </div>
-  //             )}
-  //           </div>
-  //         ))}
-  //       </Slider>
-  //       <div className="slick-slider-controller">
-  //         <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
-  //           <IoIosArrowBack size={20} color="#fff" />
-  //         </button>
-  //         <button className="next arrow" onClick={() => sliderRef.current.slickNext()}>
-  //           <IoIosArrowForward size={20} color="#fff" />
-  //         </button>
-  //       </div>
-  //     </Box>
-  //   );
-  // }
-
-  // console.log({ items });
-
-  if (!itemSize.width || !itemSize.height) {
-    return null;
-  }
   return (
     <Box style={{ height: sliderSize?.height || itemSize.height }}>
       <Slider ref={sliderRef} arrows={false} {...settings}>
@@ -84,20 +36,20 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
           <div key={item.id} className="img-outer">
             <Image
               src={item.url}
-              alt="alt"
               width={itemSize.width}
               height={itemSize.height}
-              style={{ height: sliderSize?.height }}
+              alt="alt"
               onClick={() => handleClickImage(item.id, item.url)}
             />
             {item.text && (
-              <div className="text">
+              <div className="overlay">
                 <h1>{item.text}</h1>
               </div>
             )}
           </div>
         ))}
       </Slider>
+
       <div className="slick-slider-controller">
         <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
           <IoIosArrowBack size={20} color="#fff" />
@@ -118,7 +70,17 @@ const Box = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    .text {
+    overflow: hidden;
+    &:hover {
+      .overlay {
+        display: block;
+      }
+      img {
+        transform: scale(1.1);
+      }
+    }
+
+    .overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -129,19 +91,21 @@ const Box = styled.div`
       pointer-events: none;
       padding: 1rem;
     }
+
     img {
       cursor: pointer;
     }
-  }
-  button:hover {
-    background-color: initial;
+
+    img,
+    .overlay {
+      transition: all 0.5s;
+    }
   }
 
   .slick-slider {
     height: 100%;
     position: relative;
     color: #fff;
-    /* overflow: hidden; */
 
     .slick-list {
       height: 100%;
@@ -152,7 +116,6 @@ const Box = styled.div`
         .slick-slide {
           height: 100%;
           overflow: hidden;
-          /* border: 1px solid red; */
 
           div {
             height: 100%;
@@ -160,12 +123,26 @@ const Box = styled.div`
         }
       }
     }
+
     .slick-dots {
       position: absolute;
       bottom: 1rem;
       pointer-events: none;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+
       li {
         pointer-events: auto;
+
+        button:before {
+          font-size: 1rem;
+        }
+      }
+
+      button:hover {
+        background-color: initial;
       }
     }
   }
@@ -173,11 +150,8 @@ const Box = styled.div`
   .slick-slider-controller {
     .arrow {
       height: 100%;
-      /* &:hover {
-        color: #000;
-        background-color: rgba(0, 0, 0, 0.5);
-      } */
     }
+
     .prev {
       width: 5rem;
       position: absolute;
@@ -185,12 +159,17 @@ const Box = styled.div`
       left: 0;
       transform: translateY(-50%);
     }
+
     .next {
       width: 5rem;
       position: absolute;
       top: 50%;
       right: 0;
       transform: translateY(-50%);
+    }
+
+    button:hover {
+      background-color: initial;
     }
   }
 `;
