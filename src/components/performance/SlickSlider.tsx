@@ -136,8 +136,9 @@ const Box = styled.div`
       li {
         pointer-events: auto;
 
-        button:before {
+        button::before {
           font-size: 1rem;
+          color: #ddd;
         }
       }
 

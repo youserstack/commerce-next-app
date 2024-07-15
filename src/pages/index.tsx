@@ -144,7 +144,6 @@ export default function Home({ products }: any) {
               <SlickSlider
                 items={recentItems}
                 itemSize={{ width: 300, height: 200 }}
-                sliderSize={{ height: "100px" }}
                 actionType="Link"
                 settings={
                   deviceEnv === "mobile"
