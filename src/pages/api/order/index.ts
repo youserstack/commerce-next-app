@@ -4,10 +4,10 @@ import Product from "lib/server/models/Product";
 import User from "lib/server/models/User";
 import verifyJWT from "lib/server/utils/verifyJWT";
 
-connectDB();
-
 export default async function handler(req: any, res: any) {
   console.log("\x1b[33m\n[api/order]:::[", req.method, "]");
+  connectDB();
+
   switch (req.method) {
     case "POST":
       await createOrder(req, res);

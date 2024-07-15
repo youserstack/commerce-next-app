@@ -63,12 +63,13 @@ export default function Home({ products }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Main className="home-page">
         <section className="banner">
           <SlickSlider
             items={slideImages}
-            itemSize={{ width: 1000, height: 1000 }}
-            sliderSize={{ height: 300 }}
+            itemSize={{ width: 500, height: 500 }}
+            sliderSize={{ height: 250 }}
             settings={{
               centerMode: true,
               slidesToShow: 1,
@@ -81,6 +82,7 @@ export default function Home({ products }: any) {
             }}
           />
         </section>
+
         <section className="category">
           <div className="card box">
             <h1>Electronics</h1>
@@ -109,7 +111,7 @@ export default function Home({ products }: any) {
         </section>
         <section className="recommendation">
           <div className="best-sellers box">
-            <h1>Best Sellers</h1>
+            <h1>Recommendation</h1>
             {randomProducts && (
               <SlickSlider
                 items={randomItems}
@@ -142,6 +144,7 @@ export default function Home({ products }: any) {
               <SlickSlider
                 items={recentItems}
                 itemSize={{ width: 300, height: 200 }}
+                sliderSize={{ height: "100px" }}
                 actionType="Link"
                 settings={
                   deviceEnv === "mobile"
@@ -172,8 +175,8 @@ export default function Home({ products }: any) {
 
 const Main = styled.main`
   .banner {
-    /* max-width: initial; */
     min-height: initial;
+
     .slick-slider {
       overflow-y: clip;
       .slick-list {
@@ -183,6 +186,7 @@ const Main = styled.main`
         }
       }
     }
+
     .controller {
       pointer-events: none;
       position: absolute;
@@ -192,6 +196,7 @@ const Main = styled.main`
       max-width: 1000px;
       height: 100%;
       transform: translateX(-50%);
+
       .arrow {
         pointer-events: initial;
       }
@@ -204,9 +209,7 @@ const Main = styled.main`
     margin: initial;
     min-height: initial;
     position: relative;
-
     padding: 100px 1rem;
-
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
     justify-content: center;
@@ -248,32 +251,13 @@ const Main = styled.main`
       > h1 {
         padding: 1rem;
       }
-      > :last-child {
-        padding-bottom: 1rem;
-      }
     }
 
     .best-sellers,
     .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
-        .img-outer {
-          border-radius: 10px;
-          overflow: hidden;
-          &:hover {
-            img {
-              transform: scale(1.1);
-            }
-            .text {
-              display: flex;
-            }
-          }
 
-          img,
-          .text {
-            transition: all 0.5s;
-          }
-        }
         @media (max-width: 500px), (width <= 500px) {
           padding: 10px;
         }
@@ -296,12 +280,3 @@ const Main = styled.main`
     }
   }
 `;
-
-// export async function getStaticPaths(context: any) {
-//   return {
-//     paths: [{ params: { id: "123" } }],
-//     fallback: true,
-//     // fallback: false,
-//     // fallback: "blocking",
-//   };
-// }
